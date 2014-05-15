@@ -1,0 +1,9 @@
+<resources>
+	<string name="app_name">Heidi</string>
+	<string name="langSelectorTitle">Select language</string>
+	
+	<string name="langEnglish">English</string>
+	<string name="langGerman">Deutsch</string>
+	<string name="langFrench">Francais</string>
+	<string name="langItalian">Italiano</string>
+</resources>

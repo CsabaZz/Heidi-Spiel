@@ -1,0 +1,74 @@
+[
+	{
+		"type":"story",
+		"text1":"Grüezi Mitenand.\nHerzlich willkommen zu dem Heidi Spiel."
+	},
+	{
+		"type":"story",
+		"text1":"Zu Ende spielen lohnt sich für euch, denn ihr könnt einen Gutschein gewinnen."
+	},
+	{
+		"type":"story",
+		"text1":"Beantwortet die Fragen und löst die Aufgaben, um möglichst schnell ans Ziel zu gelangen."
+	},
+	{
+		"type":"story",
+		"text1":"Viel Spass!"
+	},
+	{
+		"type":"story",
+		"text1":"Heidis Mutti ist bei einem Autounfall gestorben."
+	},
+	{
+		"type":"story",
+		"text1":"Aus diesem Grund zieht meine Enkelin\nHeidi zu mir auf die Alp in den schönen Schweitzer Bergen,"
+	},
+	{
+		"type":"story",
+		"text1":"Morgen fliege ich von Wien mit der Swiss zu meinem Opa in die Schweitz.\nAber was muss ich über die Schweitz wissen bevor ich dorhing reise?"
+	},
+	{
+		"type":"story",
+		"text1":"Hilf mir bitte!"
+	},
+	{
+		"type":"question",
+		"question":"1. Aufgabe:\nMit welcher Währung wird in der Schweiz bezahlt?",
+		"answer1":"Euro",
+		"answer2":"Franken",
+		"answer3":"Pfund",
+		"good":"Franken"
+	},
+	{
+		"type":"question",
+		"question":"2. Aufgabe:\nWie viele Kantone hat die Schweitz?",
+		"answer1":"26",
+		"answer2":"15",
+		"answer3":"35",
+		"good":"26"
+	},
+	{
+		"type":"question",
+		"question":"3. Aufgabe:\nWelche ist keine Landessprache der Schweitz?",
+		"answer1":"Italienisch",
+		"answer2":"Französisch",
+		"answer3":"Spanisch",
+		"good":"Spanisch"
+	},
+	{
+		"type":"question",
+		"question":"4. Aufgabe:\nWelche Regierungsform hat die Schweitz?",
+		"answer1":"Diktatur",
+		"answer2":"Monarchie",
+		"answer3":"Demokratie",
+		"good":"Demokratie"
+	},
+	{
+		"type":"question",
+		"question":"5. Aufgabe:\nWie sieht die Schweitzer Flagge aus?",
+		"answer1":"Euro",
+		"answer2":"Franken",
+		"answer3":"Pfund",
+		"good":"Franken"
+	}
+]
