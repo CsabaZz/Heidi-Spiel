@@ -12,4 +12,7 @@ public class Question extends BaseEntity {
     public String answer2;
     public String answer3;
     public String good;
+    
+    public String image;
+    public String placeholder;
 }

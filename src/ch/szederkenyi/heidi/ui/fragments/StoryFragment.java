@@ -52,4 +52,9 @@ public class StoryFragment extends BaseFragment {
         mBubbleText = null;
         super.onDestroyView();
     }
+    
+    @Override
+    public String getStackName() {
+        return super.getStackName() + "://" + mStoryObject.id;
+    }
 }

@@ -8,8 +8,13 @@ import ch.szederkenyi.heidi.StaticContextApplication;
 import java.util.Locale;
 
 public final class Utils {
+    private static final String PATTERN_TAG = "Heidi::%s";
     
     private Utils() { }
+    
+    public static String makeTag(Class<?> clazz) {
+        return String.format(PATTERN_TAG, clazz.getSimpleName());
+    }
 
     public static void changeLanguage(String langCode, String countryCode) {
         Locale def = Locale.getDefault();
