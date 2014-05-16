@@ -7,8 +7,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import ch.szederkenyi.heidi.utils.Utils;
-
 import com.example.heidi.R;
 
 public class LanguageSelectorFragment extends BaseFragment implements OnClickListener {
@@ -18,14 +16,16 @@ public class LanguageSelectorFragment extends BaseFragment implements OnClickLis
     private Button mFrenchButton;
     private Button mItalianButton;
     
+    private OnLanguageSelectedListener mSelectionListener;
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View contentView = inflater.inflate(R.layout.language_selector, container, false);
         
-        mEnglishButton = findViewById(contentView, R.id.language_selector_english);
-        mGermanButton = findViewById(contentView, R.id.language_selector_english);
-        mFrenchButton = findViewById(contentView, R.id.language_selector_english);
-        mItalianButton = findViewById(contentView, R.id.language_selector_english);
+        mEnglishButton = findViewById(contentView, R.id.language_selector_english, "en");
+        mGermanButton = findViewById(contentView, R.id.language_selector_english, "de");
+        mFrenchButton = findViewById(contentView, R.id.language_selector_english, "fr");
+        mItalianButton = findViewById(contentView, R.id.language_selector_english, "it");
         
         return contentView;
     }
@@ -40,9 +40,10 @@ public class LanguageSelectorFragment extends BaseFragment implements OnClickLis
         super.onDestroyView();
     }
 
-    private Button findViewById(View contentView, int id) {
+    private Button findViewById(View contentView, int id, String langCode) {
         final Button button = (Button) contentView.findViewById(id);
         button.setOnClickListener(this);
+        button.setTag(langCode);
         return button;
     }
     
@@ -55,8 +56,23 @@ public class LanguageSelectorFragment extends BaseFragment implements OnClickLis
 
     @Override
     public void onClick(View v) {
-        final String langCode = (String) v.getTag();
-        Utils.changeLanguage(langCode, countryCode);
+        if(null != mSelectionListener) {
+            final String langCode = (String) v.getTag();
+            final String countryCode = "";
+            mSelectionListener.onLanguageSelected(langCode, countryCode);
+        }
+    }
+    
+    public OnLanguageSelectedListener getOnLanguageSelectedListener() {
+        return mSelectionListener;
+    }
+
+    public void setOnLanguageSelectedListener(OnLanguageSelectedListener selectionListener) {
+        mSelectionListener = selectionListener;
+    }
+
+    public interface OnLanguageSelectedListener {
+        void onLanguageSelected(String langCode, String countryCode);
     }
 
 }
