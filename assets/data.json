@@ -30,14 +30,10 @@
 		"background":"AlpOhi.jpg"
 	},
 	{
-		"type":"story",
-		"text1":"Morgen fliege ich von Wien mit der Swiss zu meinem Opa in die Schweitz.\nAber was muss ich \u00FCber die Schweitz wissen bevor ich dorhin reise?",
-		"background":"AlpOhi.jpg"
-	},
-	{
-		"type":"story",
-		"text1":"Hilf mir bitte!",
-		"background":"AlpOhi.jpg"
+		"type":"help",
+		"text1":"Morgen fliege ich von Wien\nmit der Swiss zu meinem\nOpa in die Schweitz.\nAber was muss ich \u00FCber die\nSchweitz wissen bevor ich\ndorhin reise?",
+		"text2":"Hilf mir bitte!",
+		"background":"HeidiCrop.jpg"
 	},
 	{
 		"type":"question",
@@ -98,5 +94,10 @@
 		"placeholderImage":"edelweiss.jpg",
 		"goodImage":"Antwort_richtig.jpg",
 		"badImage":"016d18.jpg"
+	},
+	{
+		"type":"ready",
+		"text":"Danke vielmal f\u00FCr deine Hilfe!\nSuper! Ich habe alle Fragen\nrichtig beantwortet. Jetzt bin\nich bereit f\u00FCr meine Reise in die Schweitz.\nAlp \u00D6hi wartet bereits auf\nmich!",
+		"image":"15 marzo.jpg"
 	}
 ]

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ch.szederkenyi.heidi.ui.views.LockableScrollView xmlns:android="http://schemas.android.com/apk/res/android" 
+	android:layout_width="match_parent" android:layout_height="match_parent" 
+	android:scrollbars="none">
+	<RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+		<ImageView android:id="@+id/help_image" android:scaleType="fitCenter" 
+		    android:layout_width="match_parent" android:layout_height="wrap_content" 
+		    android:layout_alignParentBottom="true" android:layout_marginTop="60dp" 
+		    android:adjustViewBounds="true"/>
+		<TextView android:id="@+id/help_text1" android:background="@drawable/background_bubble"  
+		    android:layout_width="match_parent" android:layout_height="wrap_content" 
+		    android:padding="20dp" android:textSize="22sp" android:textColor="@color/black"/>
+		<TextView android:id="@+id/help_text2" android:background="@drawable/background_bubble"  
+		    android:layout_width="match_parent" android:layout_height="match_parent" 
+		    android:layout_marginTop="400dp" android:padding="20dp" 
+		    android:textSize="22sp" android:textColor="@color/black"/>
+	</RelativeLayout>
+</ch.szederkenyi.heidi.ui.views.LockableScrollView>

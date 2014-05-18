@@ -4,7 +4,9 @@ import android.util.Log;
 
 import ch.szederkenyi.heidi.async.AbstractTask.Entity;
 import ch.szederkenyi.heidi.data.entities.BaseEntity;
+import ch.szederkenyi.heidi.data.entities.Help;
 import ch.szederkenyi.heidi.data.entities.Question;
+import ch.szederkenyi.heidi.data.entities.Ready;
 import ch.szederkenyi.heidi.data.entities.Story;
 import ch.szederkenyi.heidi.utils.Utils;
 
@@ -58,6 +60,23 @@ public class StoryboardCallable extends AbstractListCallable<BaseEntity> {
                 questionEntity.badImage = object.optString("badImage");
                 
                 entities.add(questionEntity);
+            } else if("ready".equalsIgnoreCase(type)) {
+                final Ready imageEntity = new Ready();
+                imageEntity.type = type;
+                
+                imageEntity.text = object.optString("text");
+                imageEntity.image = object.optString("image");
+                
+                entities.add(imageEntity);
+            } else if("help".equalsIgnoreCase(type)) {
+                final Help helpEntity = new Help();
+                helpEntity.type = type;
+                
+                helpEntity.text1 = object.optString("text1");
+                helpEntity.text2 = object.optString("text2");
+                helpEntity.background = object.optString("background");
+                
+                entities.add(helpEntity);
             }
         }
         

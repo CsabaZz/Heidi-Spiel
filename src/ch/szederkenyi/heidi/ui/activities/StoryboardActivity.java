@@ -85,7 +85,11 @@ public class StoryboardActivity extends FragmentActivity implements Callback, Ru
 
     @Override
     public void run() {
-        mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1, true);
+        if(mViewPager.getCurrentItem() < mAdapter.getCount() - 1) {
+            mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1, true);
+        } else {
+            finish();
+        }
     }
 
 }

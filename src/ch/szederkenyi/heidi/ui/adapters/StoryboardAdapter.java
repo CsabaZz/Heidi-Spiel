@@ -4,9 +4,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
 import ch.szederkenyi.heidi.data.entities.BaseEntity;
+import ch.szederkenyi.heidi.data.entities.Help;
 import ch.szederkenyi.heidi.data.entities.Question;
+import ch.szederkenyi.heidi.data.entities.Ready;
 import ch.szederkenyi.heidi.data.entities.Story;
+import ch.szederkenyi.heidi.ui.fragments.HelpFragment;
 import ch.szederkenyi.heidi.ui.fragments.QuestionFragment;
+import ch.szederkenyi.heidi.ui.fragments.ReadyFragment;
 import ch.szederkenyi.heidi.ui.fragments.StoryFragment;
 
 import java.util.ArrayList;
@@ -34,6 +38,10 @@ public class StoryboardAdapter extends FragmentHashStatePagerAdapter {
             return StoryFragment.instantiate((Story)entity);
         } else if(entity instanceof Question) {
             return QuestionFragment.instantiate((Question)entity);
+        } else if(entity instanceof Ready) {
+            return ReadyFragment.instantiate((Ready)entity);
+        } else if(entity instanceof Help) {
+            return HelpFragment.instantiate((Help)entity);
         }
         
         return null;
