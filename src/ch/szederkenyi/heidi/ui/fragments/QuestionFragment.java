@@ -1,37 +1,47 @@
 package ch.szederkenyi.heidi.ui.fragments;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
+import ch.szederkenyi.heidi.AppData;
 import ch.szederkenyi.heidi.data.ImageLoader;
 import ch.szederkenyi.heidi.data.entities.Question;
+import ch.szederkenyi.heidi.messages.MessageHandler;
+import ch.szederkenyi.heidi.messages.NextStoryMessage;
+import ch.szederkenyi.heidi.utils.Utils;
 
 import com.example.heidi.R;
 
-public class QuestionFragment extends BaseFragment {
+public class QuestionFragment extends BaseFragment implements OnClickListener {
     private static final String KEY_ENTITY_OBJECT = "QuestionFragment::EntityObject";
+    
+    private static final int DELAY_GOOD_ANSWER = 1500;
+    private static final int DELAY_BAD_ANSWER = 2500;
     
     private TextView mQuestionText;
     
     private ImageView mSpaceHolderImage;
     private ImageView mQuestionImage;
     
-    private Button mAnswer1Button;
-    private Button mAnswer2Button;
-    private Button mAnswer3Button;
+    private ToggleButton mAnswer1Button;
+    private ToggleButton mAnswer2Button;
+    private ToggleButton mAnswer3Button;
     
     private Question mQuestionObject;
     
-    public static StoryFragment instantiate(Question questionObject) {
+    public static QuestionFragment instantiate(Question questionObject) {
         final Bundle args = new Bundle();
         args.putSerializable(KEY_ENTITY_OBJECT, questionObject);
         
-        final StoryFragment fragment = new StoryFragment();
+        final QuestionFragment fragment = new QuestionFragment();
         fragment.setArguments(args);
         
         return fragment;
@@ -49,29 +59,51 @@ public class QuestionFragment extends BaseFragment {
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View contentView = inflater.inflate(R.layout.story, container, false);
+        final View contentView = inflater.inflate(R.layout.question, container, false);
         
         mQuestionText = (TextView) contentView.findViewById(R.id.question_text);
 
         mSpaceHolderImage = (ImageView) contentView.findViewById(R.id.question_space_holder);
         mQuestionImage = (ImageView) contentView.findViewById(R.id.question_image);
 
-        mAnswer1Button = (Button) contentView.findViewById(R.id.question_answer_1);
-        mAnswer2Button = (Button) contentView.findViewById(R.id.question_answer_2);
-        mAnswer3Button = (Button) contentView.findViewById(R.id.question_answer_3);
+        mAnswer1Button = (ToggleButton) contentView.findViewById(R.id.question_answer_1);
+        mAnswer2Button = (ToggleButton) contentView.findViewById(R.id.question_answer_2);
+        mAnswer3Button = (ToggleButton) contentView.findViewById(R.id.question_answer_3);
         
-        mQuestionText.setText(mQuestionObject.question);
+        mQuestionText.setText(mQuestionObject.questionText);
         
         ImageLoader.loadImageFromAsset(mSpaceHolderImage, mQuestionObject.placeholder);
-        ImageLoader.loadImageFromAsset(mQuestionImage, mQuestionObject.image);
+        ImageLoader.loadImageFromAsset(mQuestionImage, mQuestionObject.questionImage, Utils.getDip(60));
         
-        mAnswer1Button.setText(mQuestionObject.answer1);
-        mAnswer2Button.setText(mQuestionObject.answer2);
-        mAnswer3Button.setText(mQuestionObject.answer3);
+        initializeButton(mAnswer1Button, mQuestionObject.answer1);
+        initializeButton(mAnswer2Button, mQuestionObject.answer2);
+        initializeButton(mAnswer3Button, mQuestionObject.answer3);
         
         return contentView;
     }
     
+    private void initializeButton(ToggleButton button, String answer) {
+        button.setOnClickListener(this);
+        button.setTag(answer);
+        
+        if(answer.endsWith(".jpg")) {
+            final CharSequence str = ImageLoader.loadImageFromAsset(answer, Utils.getDip(60));
+            button.setTextOn(str);
+            button.setTextOff(str);
+            button.setText(str);
+        } else {
+            button.setTextOn(answer);
+            button.setTextOff(answer);
+            button.setText(answer);
+        }
+        
+        if(mQuestionObject.goodAnswer.equalsIgnoreCase(answer)) {
+            button.setBackgroundResource(R.drawable.background_answer_good);
+        } else {
+            button.setBackgroundResource(R.drawable.background_answer_bad);
+        }
+    }
+
     @Override
     public void onDestroyView() {
         mQuestionText = null;
@@ -79,15 +111,66 @@ public class QuestionFragment extends BaseFragment {
         mSpaceHolderImage = null;
         mQuestionImage = null;
 
-        mAnswer1Button = null;
-        mAnswer2Button = null;
-        mAnswer3Button = null;
+        if(null != mAnswer1Button) {
+            mAnswer1Button.setOnClickListener(null);
+            mAnswer1Button = null;
+        }
+
+        if(null != mAnswer2Button) {
+            mAnswer2Button.setOnClickListener(null);
+            mAnswer2Button = null;
+        }
+
+        if(null != mAnswer3Button) {
+            mAnswer3Button.setOnClickListener(null);
+            mAnswer3Button = null;
+        }
         
         super.onDestroyView();
     }
     
     @Override
     public String getStackName() {
-        return super.getStackName() + "://" + mQuestionObject.id;
+        if(null == mQuestionObject) {
+            return null;
+        } else {
+            return super.getStackName() + "://" + mQuestionObject.id;
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        mAnswer1Button.setEnabled(false);
+        mAnswer2Button.setEnabled(false);
+        mAnswer3Button.setEnabled(false);
+        
+        final ToggleButton button = (ToggleButton) v;
+        final String answer = (String)button.getTag();
+        
+        final Handler handler = new Handler(new DelayCallback());
+        
+        if(mQuestionObject.goodAnswer.equalsIgnoreCase(answer)) {
+            ImageLoader.loadImageFromAsset(mQuestionImage, mQuestionObject.goodImage);
+            handler.sendEmptyMessageDelayed(0, DELAY_GOOD_ANSWER);
+        } else {
+            ImageLoader.loadImageFromAsset(mQuestionImage, mQuestionObject.badImage);
+            
+            mAnswer1Button.setChecked(true);
+            mAnswer2Button.setChecked(true);
+            mAnswer3Button.setChecked(true);
+            
+            handler.sendEmptyMessageDelayed(0, DELAY_BAD_ANSWER);
+        }
+    }
+    
+    private static class DelayCallback implements Handler.Callback {
+        
+        @Override
+        public boolean handleMessage(Message msg) {
+            final AppData appdata = AppData.getInstance();
+            final MessageHandler handler = appdata.getMessageHandler();
+            handler.sendMessage(NextStoryMessage.class);
+            return false;
+        }
     }
 }

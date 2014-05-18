@@ -4,11 +4,18 @@
 	
 	<uses-sdk android:minSdkVersion="8" android:targetSdkVersion="19" />
 	
-	<application android:theme="@style/AppTheme" 
+	<application android:name="ch.szederkenyi.heidi.StaticContextApplication" android:theme="@style/AppTheme" 
 		android:icon="@drawable/ic_launcher" android:label="@string/app_name" 
 		android:allowBackup="true">
-		<activity android:name="ch.szederkenyi.heidi.ui.activities.LaunchActivity"/>
-		<activity android:name="ch.szederkenyi.heidi.ui.activities.StoryboardActivity"/>
+		<activity android:name="ch.szederkenyi.heidi.ui.activities.LaunchActivity" 
+		    android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+		<activity android:name="ch.szederkenyi.heidi.ui.activities.StoryboardActivity" 
+		    android:screenOrientation="portrait"/>
 	</application>
 
 </manifest>

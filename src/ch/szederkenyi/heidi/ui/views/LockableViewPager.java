@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 
 public class LockableViewPager extends ViewPager {
     private static final String STATE_SUPER = "LockableViewPager::SuperState";
@@ -28,6 +29,25 @@ public class LockableViewPager extends ViewPager {
         } else {
             return super.canScrollHorizontally(direction);
         }
+    }
+    
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (this.mLocked) {
+            return false;
+        }
+        
+        return super.onTouchEvent(event);
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent event) {
+        if (this.mLocked) {
+            return false;
+        }
+        
+        return super.onInterceptTouchEvent(event);
     }
 
     @Override

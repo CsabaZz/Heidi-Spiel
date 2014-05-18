@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package ch.szederkenyi.heidi.ui;
+package ch.szederkenyi.heidi.ui.adapters;
 
 import android.os.Bundle;
 import android.os.Parcelable;

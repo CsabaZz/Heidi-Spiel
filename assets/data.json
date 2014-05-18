@@ -1,75 +1,102 @@
 [
 	{
 		"type":"story",
-		"text1":"Grüezi Mitenand.\nHerzlich willkommen zu dem Heidi Spiel."
-		"background":"image://"
+		"text1":"Gr\u00FCezi Mitenand.\nHerzlich willkommen zu dem Heidi Spiel.",
+		"background":"AlpOhi.jpg"
 	},
 	{
 		"type":"story",
-		"text1":"Zu Ende spielen lohnt sich für euch, denn ihr könnt einen Gutschein gewinnen."
+		"text1":"Zu Ende spielen lohnt sich f\u00FCr euch, denn ihr k\u00F6nnt einen Gutschein gewinnen.",
+		"background":"AlpOhi.jpg"
 	},
 	{
 		"type":"story",
-		"text1":"Beantwortet die Fragen und löst die Aufgaben, um möglichst schnell ans Ziel zu gelangen."
+		"text1":"Beantwortet die Fragen und l\u00F6st die Aufgaben, um m\u00F6glichst schnell ans Ziel zu gelangen.",
+		"background":"AlpOhi.jpg"
 	},
 	{
 		"type":"story",
-		"text1":"Viel Spass!"
+		"text1":"Viel Spass!",
+		"background":"AlpOhi.jpg"
 	},
 	{
 		"type":"story",
-		"text1":"Heidis Mutti ist bei einem Autounfall gestorben."
+		"text1":"Heidis Mutti ist bei einem Autounfall gestorben.",
+		"background":"AlpOhi.jpg"
 	},
 	{
 		"type":"story",
-		"text1":"Aus diesem Grund zieht meine Enkelin\nHeidi zu mir auf die Alp in den schönen Schweitzer Bergen,"
+		"text1":"Aus diesem Grund zieht meine Enkelin\nHeidi zu mir auf die Alp in den sch\u00F6nen Schweitzer Bergen.",
+		"background":"AlpOhi.jpg"
 	},
 	{
 		"type":"story",
-		"text1":"Morgen fliege ich von Wien mit der Swiss zu meinem Opa in die Schweitz.\nAber was muss ich über die Schweitz wissen bevor ich dorhing reise?"
+		"text1":"Morgen fliege ich von Wien mit der Swiss zu meinem Opa in die Schweitz.\nAber was muss ich \u00FCber die Schweitz wissen bevor ich dorhin reise?",
+		"background":"AlpOhi.jpg"
 	},
 	{
 		"type":"story",
-		"text1":"Hilf mir bitte!"
+		"text1":"Hilf mir bitte!",
+		"background":"AlpOhi.jpg"
 	},
 	{
 		"type":"question",
-		"question":"1. Aufgabe:\nMit welcher Währung wird in der Schweiz bezahlt?",
+		"questionText":"1. Aufgabe:\nMit welcher W\u00E4hrung wird in der Schweiz bezahlt?",
 		"answer1":"Euro",
 		"answer2":"Franken",
 		"answer3":"Pfund",
-		"good":"Franken"
+		"good":"Franken",
+		"questionImage":"Frage_1.jpg",
+		"placeholderImage":"edelweiss.jpg",
+		"goodImage":"Antwort_richtig.jpg",
+		"badImage":"016d18.jpg"
 	},
 	{
 		"type":"question",
-		"question":"2. Aufgabe:\nWie viele Kantone hat die Schweitz?",
+		"questionText":"2. Aufgabe:\nWie viele Kantone hat die Schweitz?",
 		"answer1":"26",
 		"answer2":"15",
 		"answer3":"35",
-		"good":"26"
+		"good":"26",
+		"questionImage":"Frage_1.jpg",
+		"placeholderImage":"edelweiss.jpg",
+		"goodImage":"Antwort_richtig.jpg",
+		"badImage":"016d18.jpg"
 	},
 	{
 		"type":"question",
-		"question":"3. Aufgabe:\nWelche ist keine Landessprache der Schweitz?",
+		"questionText":"3. Aufgabe:\nWelche ist keine Landessprache der Schweitz?",
 		"answer1":"Italienisch",
-		"answer2":"Französisch",
+		"answer2":"Franz\u00F6sisch",
 		"answer3":"Spanisch",
-		"good":"Spanisch"
+		"good":"Spanisch",
+		"questionImage":"Frage_1.jpg",
+		"placeholderImage":"edelweiss.jpg",
+		"goodImage":"Antwort_richtig.jpg",
+		"badImage":"016d18.jpg"
 	},
 	{
 		"type":"question",
-		"question":"4. Aufgabe:\nWelche Regierungsform hat die Schweitz?",
+		"questionText":"4. Aufgabe:\nWelche Regierungsform hat die Schweitz?",
 		"answer1":"Diktatur",
 		"answer2":"Monarchie",
 		"answer3":"Demokratie",
-		"good":"Demokratie"
+		"good":"Demokratie",
+		"questionImage":"Frage_1.jpg",
+		"placeholderImage":"edelweiss.jpg",
+		"goodImage":"Antwort_richtig.jpg",
+		"badImage":"016d18.jpg"
 	},
 	{
 		"type":"question",
-		"question":"5. Aufgabe:\nWie sieht die Schweitzer Flagge aus?",
-		"answer1":"Euro",
-		"answer2":"Franken",
-		"answer3":"Pfund",
-		"good":"Franken"
+		"questionText":"5. Aufgabe:\nWie sieht die Schweitzer Flagge aus?",
+		"answer1":"schweiz_flag.jpg",
+		"answer2":"osterreich_flag.jpg",
+		"answer3":"denmark_flag.jpg",
+		"good":"schweiz_flag.jpg",
+		"questionImage":"Frage_1.jpg",
+		"placeholderImage":"edelweiss.jpg",
+		"goodImage":"Antwort_richtig.jpg",
+		"badImage":"016d18.jpg"
 	}
 ]

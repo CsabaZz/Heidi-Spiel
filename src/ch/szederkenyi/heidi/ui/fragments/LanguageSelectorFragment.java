@@ -23,9 +23,9 @@ public class LanguageSelectorFragment extends BaseFragment implements OnClickLis
         final View contentView = inflater.inflate(R.layout.language_selector, container, false);
         
         mEnglishButton = findViewById(contentView, R.id.language_selector_english, "en");
-        mGermanButton = findViewById(contentView, R.id.language_selector_english, "de");
-        mFrenchButton = findViewById(contentView, R.id.language_selector_english, "fr");
-        mItalianButton = findViewById(contentView, R.id.language_selector_english, "it");
+        mGermanButton = findViewById(contentView, R.id.language_selector_german, "de");
+        mFrenchButton = findViewById(contentView, R.id.language_selector_french, "fr");
+        mItalianButton = findViewById(contentView, R.id.language_selector_italian, "it");
         
         return contentView;
     }

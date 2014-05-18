@@ -1,25 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent" android:layout_height="match_parent">
-	<ImageView android:id="@+id/question_image" 
-	    android:layout_width="200dp" android:layout_height="wrap_content" 
-	    android:layout_alignParentBottom="true" android:layout_alignTop="@+id/question_answer_1"/>
-	<Button android:id="@+id/question_answer_3" 
-	    android:layout_width="match_parent" android:layout_height="wrap_content" 
+	android:layout_width="match_parent" android:layout_height="match_parent" 
+	android:background="@color/red" android:paddingTop="10dp">
+	<ImageView android:id="@+id/question_image" android:scaleType="centerCrop" 
+	    android:layout_width="175dp" android:layout_height="match_parent" 
+	    android:layout_alignParentBottom="true" android:layout_alignTop="@+id/question_answer_1" 
+	    android:layout_marginTop="-10dp" android:layout_marginRight="3dp"/>
+	<ToggleButton android:id="@+id/question_answer_3" android:button="@null" 
+	    android:layout_width="match_parent" android:layout_height="72dp" 
 	    android:layout_toRightOf="@+id/question_image" android:layout_alignParentRight="true" 
-	    android:layout_alignParentBottom="true" />
-	<Button android:id="@+id/question_answer_2" 
-	    android:layout_width="match_parent" android:layout_height="wrap_content" 
+	    android:layout_alignParentBottom="true" android:textColor="@color/black" android:textSize="20sp"/>
+	<ToggleButton android:id="@+id/question_answer_2" android:button="@null" 
+	    android:layout_width="match_parent" android:layout_height="72dp" 
 	    android:layout_toRightOf="@+id/question_image" android:layout_alignParentRight="true" 
-	    android:layout_above="@+id/question_answer_3" />
-	<Button android:id="@+id/question_answer_1" 
-	    android:layout_width="match_parent" android:layout_height="wrap_content" 
+	    android:layout_above="@+id/question_answer_3" android:textColor="@color/black" android:textSize="20sp"/>
+	<ToggleButton android:id="@+id/question_answer_1" android:button="@null" 
+	    android:layout_width="match_parent" android:layout_height="72dp" 
 	    android:layout_toRightOf="@+id/question_image" android:layout_alignParentRight="true" 
-	    android:layout_above="@+id/question_answer_2" />
+	    android:layout_above="@+id/question_answer_2" android:textColor="@color/black" android:textSize="20sp"/>
 	<TextView android:id="@+id/question_text" 
 	    android:layout_width="match_parent" android:layout_height="wrap_content" 
-	    android:gravity="center_horizontal"/>
+	    android:gravity="center_horizontal" android:layout_margin="10dp" 
+	    android:textSize="26sp" android:textColor="@color/white"/>
 	<ImageView android:id="@+id/question_space_holder" android:scaleType="centerInside" 
 	    android:layout_width="match_parent" android:layout_height="match_parent" 
-	    android:layout_below="@+id/question_text" android:layout_above="@+id/question_image"/>
+	    android:layout_below="@+id/question_text" android:layout_above="@+id/question_image" 
+	    android:layout_marginBottom="10dp"/>
 </RelativeLayout>
