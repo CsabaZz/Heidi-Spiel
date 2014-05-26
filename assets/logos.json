@@ -1,0 +1,72 @@
+[
+	{
+		"type":"story",
+		"text1":"Nun bin ich gespannt, ob du die verschiedenen Schweizer Logos zuordnen und erkennen kannst.",
+		"background":"AlpOhi.jpg"
+	},
+	{
+		"type":"story",
+		"text1":"Ich auch.. Los geht’s!",
+		"background":"HeidiCrop.jpg"
+	},
+	{
+		"type":"question",
+		"questionText":"1. Aufgabe:\nFür was steht das Q-Label im Schweizer Tourismus?",
+		"answer1":"Quantität",
+		"answer2":"Qualität",
+		"answer3":"Sicherheit",
+		"good":"Qualität",
+		"questionImage":"Frage_1.jpg",
+		"placeholderImage":"quality.jpg",
+		"goodImage":"Antwort_richtig.jpg",
+		"badImage":"016d18.jpg"
+	},
+	{
+		"type":"question",
+		"questionText":"2. Aufgabe:\nWelches Label assoziiert man nicht mit Schweizer Lebensmitteln?",
+		"answer1":"aoc.jpg",
+		"answer2":"suisse.jpg",
+		"answer3":"swiss.jpg",
+		"good":"swiss.jpg",
+		"questionImage":"Frage_1.jpg",
+		"placeholderImage":"edelweiss.jpg",
+		"goodImage":"Antwort_richtig.jpg",
+		"badImage":"016d18.jpg"
+	},
+	{
+		"type":"question",
+		"questionText":"3. Aufgabe:\nWelche Schreibwarenmarke stammt aus der Schweiz?",
+		"answer1":"caram_dache.jpg",
+		"answer2":"faber_castell.jpg",
+		"answer3":"mont_blanc.jpg",
+		"good":"caram_dache.jpg",
+		"questionImage":"Frage_1.jpg",
+		"placeholderImage":"edelweiss.jpg",
+		"goodImage":"Antwort_richtig.jpg",
+		"badImage":"016d18.jpg"
+	},
+	{
+		"type":"question",
+		"questionText":"4. Aufgabe:\nWelche Rivella Sorte gibt es nicht?",
+		"answer1":"rivella_01.jpg",
+		"answer2":"rivella_02.jpg",
+		"answer3":"rivella_03.jpg",
+		"good":"rivella_02.jpg",
+		"questionImage":"Frage_1.jpg",
+		"placeholderImage":"edelweiss.jpg",
+		"goodImage":"Antwort_richtig.jpg",
+		"badImage":"016d18.jpg"
+	},
+	{
+		"type":"question",
+		"questionText":"5. Aufgabe:\nWelches Logo gehört zu der Schweizerischen Post?",
+		"answer1":"post_01.jpg",
+		"answer2":"post_02.jpg",
+		"answer3":"post_03.jpg",
+		"good":"post_01.jpg",
+		"questionImage":"Frage_1.jpg",
+		"placeholderImage":"edelweiss.jpg",
+		"goodImage":"Antwort_richtig.jpg",
+		"badImage":"016d18.jpg"
+	}
+]

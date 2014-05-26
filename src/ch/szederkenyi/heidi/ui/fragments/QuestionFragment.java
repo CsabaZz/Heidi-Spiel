@@ -1,5 +1,6 @@
 package ch.szederkenyi.heidi.ui.fragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -12,24 +13,26 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import ch.szederkenyi.heidi.AppData;
+import ch.szederkenyi.heidi.R;
 import ch.szederkenyi.heidi.data.ImageLoader;
 import ch.szederkenyi.heidi.data.entities.Question;
 import ch.szederkenyi.heidi.messages.MessageHandler;
 import ch.szederkenyi.heidi.messages.NextStoryMessage;
+import ch.szederkenyi.heidi.ui.views.RoundedImageView;
 import ch.szederkenyi.heidi.utils.Utils;
-
-import com.example.heidi.R;
 
 public class QuestionFragment extends BaseFragment implements OnClickListener {
     private static final String KEY_ENTITY_OBJECT = "QuestionFragment::EntityObject";
     
-    private static final int DELAY_GOOD_ANSWER = 1500;
+    private static final int DELAY_GOOD_ANSWER = 2500;
     private static final int DELAY_BAD_ANSWER = 2500;
     
     private TextView mQuestionText;
     
     private ImageView mSpaceHolderImage;
-    private ImageView mQuestionImage;
+    private RoundedImageView mQuestionImage;
+    
+    private TextView mResultText;
     
     private ToggleButton mAnswer1Button;
     private ToggleButton mAnswer2Button;
@@ -64,13 +67,16 @@ public class QuestionFragment extends BaseFragment implements OnClickListener {
         mQuestionText = (TextView) contentView.findViewById(R.id.question_text);
 
         mSpaceHolderImage = (ImageView) contentView.findViewById(R.id.question_space_holder);
-        mQuestionImage = (ImageView) contentView.findViewById(R.id.question_image);
+        mQuestionImage = (RoundedImageView) contentView.findViewById(R.id.question_image);
+        
+        mResultText = (TextView) contentView.findViewById(R.id.question_result_text);
 
         mAnswer1Button = (ToggleButton) contentView.findViewById(R.id.question_answer_1);
         mAnswer2Button = (ToggleButton) contentView.findViewById(R.id.question_answer_2);
         mAnswer3Button = (ToggleButton) contentView.findViewById(R.id.question_answer_3);
         
         mQuestionText.setText(mQuestionObject.questionText);
+        mQuestionImage.setCornerRadius(Utils.getDip(10f));
         
         ImageLoader.loadImageFromAsset(mSpaceHolderImage, mQuestionObject.placeholder);
         ImageLoader.loadImageFromAsset(mQuestionImage, mQuestionObject.questionImage, Utils.getDip(60));
@@ -78,6 +84,8 @@ public class QuestionFragment extends BaseFragment implements OnClickListener {
         initializeButton(mAnswer1Button, mQuestionObject.answer1);
         initializeButton(mAnswer2Button, mQuestionObject.answer2);
         initializeButton(mAnswer3Button, mQuestionObject.answer3);
+        
+        mResultText.setVisibility(View.GONE);
         
         return contentView;
     }
@@ -110,6 +118,8 @@ public class QuestionFragment extends BaseFragment implements OnClickListener {
 
         mSpaceHolderImage = null;
         mQuestionImage = null;
+        
+        mResultText = null;
 
         if(null != mAnswer1Button) {
             mAnswer1Button.setOnClickListener(null);
@@ -151,9 +161,16 @@ public class QuestionFragment extends BaseFragment implements OnClickListener {
         
         if(mQuestionObject.goodAnswer.equalsIgnoreCase(answer)) {
             ImageLoader.loadImageFromAsset(mQuestionImage, mQuestionObject.goodImage);
+            
+            mResultText.setTextColor(Color.GREEN);
+            mResultText.setText(R.string.resultRightText);
+            
             handler.sendEmptyMessageDelayed(0, DELAY_GOOD_ANSWER);
         } else {
             ImageLoader.loadImageFromAsset(mQuestionImage, mQuestionObject.badImage);
+            
+            mResultText.setTextColor(Color.RED);
+            mResultText.setText(R.string.resultWrongText);
             
             mAnswer1Button.setChecked(true);
             mAnswer2Button.setChecked(true);
@@ -161,6 +178,8 @@ public class QuestionFragment extends BaseFragment implements OnClickListener {
             
             handler.sendEmptyMessageDelayed(0, DELAY_BAD_ANSWER);
         }
+        
+        mResultText.setVisibility(View.VISIBLE);
     }
     
     private static class DelayCallback implements Handler.Callback {

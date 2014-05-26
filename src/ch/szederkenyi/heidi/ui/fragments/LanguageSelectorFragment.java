@@ -7,7 +7,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.example.heidi.R;
+import ch.szederkenyi.heidi.R;
 
 public class LanguageSelectorFragment extends BaseFragment implements OnClickListener {
     

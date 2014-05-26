@@ -6,4 +6,9 @@
 	<string name="langGerman">Deutsch</string>
 	<string name="langFrench">Francais</string>
 	<string name="langItalian">Italiano</string>
+	
+	<string name="categoryChooserTitle">SELECT CATEGORY</string>
+	
+	<string name="resultRightText">Richtig!</string>
+	<string name="resultWrongText">Falsch!</string>
 </resources>

@@ -1,0 +1,72 @@
+[
+	{
+		"type":"story",
+		"text1":"Wusstest du, dass wir in der Schweiz 4 Sprachen sprechen? Deutsch, Französisch, Italienisch und Rätoromanisch. Ich gebe dir einen kurzen Sprachkurs.",
+		"background":"AlpOhi.jpg"
+	},
+	{
+		"type":"story",
+		"text1":"Sehr gerne!",
+		"background":"HeidiCrop.jpg"
+	},
+	{
+		"type":"question",
+		"questionText":"1. Aufgabe:\nSag den Tessinern „Guten Tag“",
+		"answer1":"Buongiorno!",
+		"answer2":"Buenas días!",
+		"answer3":"Bom dia!",
+		"good":"Buongiorno!",
+		"questionImage":"Frage_1.jpg",
+		"placeholderImage":"edelweiss.jpg",
+		"goodImage":"Antwort_richtig.jpg",
+		"badImage":"016d18.jpg"
+	},
+	{
+		"type":"question",
+		"questionText":"2. Aufgabe:\nWas bedeutet „Chuchichästli“?",
+		"answer1":"Ein Küchenkasten",
+		"answer2":"Eine Küchenmaschine",
+		"answer3":"Ein Kuchenblech",
+		"good":"Ein Küchenkasten",
+		"questionImage":"Frage_1.jpg",
+		"placeholderImage":"edelweiss.jpg",
+		"goodImage":"Antwort_richtig.jpg",
+		"badImage":"016d18.jpg"
+	},
+	{
+		"type":"question",
+		"questionText":"3. Aufgabe:\nWas symbolisiert der Röstigraben?",
+		"answer1":"Die Sprachbarriere zwischen den Welschen und Deutschschweizer",
+		"answer2":"Viele verschiedene Röstiarten",
+		"answer3":"Ein Ort an dem die Rösti entstanden ist",
+		"good":"Die Sprachbarriere zwischen den Welschen und Deutschschweizer",
+		"questionImage":"Frage_1.jpg",
+		"placeholderImage":"edelweiss.jpg",
+		"goodImage":"Antwort_richtig.jpg",
+		"badImage":"016d18.jpg"
+	},
+	{
+		"type":"question",
+		"questionText":"4. Aufgabe:\nWie viele Prozent sprechen heute in der Schweiz noch Rätoromanisch?",
+		"answer1":"5%",
+		"answer2":"2%",
+		"answer3":"Weniger als 1%",
+		"good":"Weniger als 1%",
+		"questionImage":"Frage_1.jpg",
+		"placeholderImage":"edelweiss.jpg",
+		"goodImage":"Antwort_richtig.jpg",
+		"badImage":"016d18.jpg"
+	},
+	{
+		"type":"question",
+		"questionText":"5. Aufgabe:\nWelche Bedeutung hat das berndeutsche Wort „äuä“?",
+		"answer1":"Sicher nicht!",
+		"answer2":"Auf jeden Fall!",
+		"answer3":"Warum nicht?",
+		"good":"Sicher nicht!",
+		"questionImage":"Frage_1.jpg",
+		"placeholderImage":"edelweiss.jpg",
+		"goodImage":"Antwort_richtig.jpg",
+		"badImage":"016d18.jpg"
+	}
+]

@@ -1,23 +1,18 @@
 package ch.szederkenyi.heidi.async.callable;
 
-import android.util.Log;
-
 import ch.szederkenyi.heidi.async.AbstractTask.Entity;
 import ch.szederkenyi.heidi.data.entities.BaseEntity;
 import ch.szederkenyi.heidi.data.entities.Help;
 import ch.szederkenyi.heidi.data.entities.Question;
 import ch.szederkenyi.heidi.data.entities.Ready;
 import ch.szederkenyi.heidi.data.entities.Story;
-import ch.szederkenyi.heidi.utils.Utils;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 public class StoryboardCallable extends AbstractListCallable<BaseEntity> {
-    private static final String TAG = Utils.makeTag(StoryboardCallable.class);
 
     public StoryboardCallable(Entity entity) {
         super(entity);
@@ -81,16 +76,6 @@ public class StoryboardCallable extends AbstractListCallable<BaseEntity> {
         }
         
         return entities;
-    }
-
-    private JSONArray convertToArray(String content) {
-        try {
-            return new JSONArray(content);
-        } catch(JSONException ex) {
-            Log.e(TAG, "Can not parse the data file!", ex);
-        }
-        
-        return null;
     }
 
 }

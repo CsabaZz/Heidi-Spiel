@@ -9,12 +9,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import ch.szederkenyi.heidi.AppData;
+import ch.szederkenyi.heidi.R;
 import ch.szederkenyi.heidi.data.ImageLoader;
 import ch.szederkenyi.heidi.data.entities.Ready;
 import ch.szederkenyi.heidi.messages.MessageHandler;
 import ch.szederkenyi.heidi.messages.NextStoryMessage;
-
-import com.example.heidi.R;
 
 public class ReadyFragment extends BaseFragment implements OnClickListener {
     private static final String KEY_ENTITY_OBJECT = "StoryFragment::EntityObject";

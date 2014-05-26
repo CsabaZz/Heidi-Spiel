@@ -8,19 +8,23 @@
 	    android:layout_marginBottom="40dp"
 	    android:textSize="24sp" android:textColor="@color/black"/>
 	<Button android:id="@+id/language_selector_english" android:text="@string/langEnglish" 
-	    android:layout_width="match_parent" android:layout_height="wrap_content" 
+	    android:layout_width="match_parent" android:layout_height="@dimen/button_height" 
 	    android:background="@drawable/background_button" android:layout_marginBottom="10dp" 
-	    android:layout_marginLeft="10dp" android:layout_marginRight="10dp"/>
+	    android:layout_marginLeft="10dp" android:layout_marginRight="10dp" 
+	    android:textColor="@color/black" android:textSize="20sp"/>
 	<Button android:id="@+id/language_selector_german" android:text="@string/langGerman" 
-	    android:layout_width="match_parent" android:layout_height="wrap_content" 
+	    android:layout_width="match_parent" android:layout_height="@dimen/button_height" 
 	    android:background="@drawable/background_button" android:layout_marginBottom="10dp" 
-	    android:layout_marginLeft="10dp" android:layout_marginRight="10dp"/>
+	    android:layout_marginLeft="10dp" android:layout_marginRight="10dp" 
+	    android:textColor="@color/black" android:textSize="20sp"/>
 	<Button android:id="@+id/language_selector_french" android:text="@string/langFrench" 
-	    android:layout_width="match_parent" android:layout_height="wrap_content" 
+	    android:layout_width="match_parent" android:layout_height="@dimen/button_height" 
 	    android:background="@drawable/background_button" android:layout_marginBottom="10dp" 
-	    android:layout_marginLeft="10dp" android:layout_marginRight="10dp"/>
+	    android:layout_marginLeft="10dp" android:layout_marginRight="10dp" 
+	    android:textColor="@color/black" android:textSize="20sp"/>
 	<Button android:id="@+id/language_selector_italian" android:text="@string/langItalian" 
-	    android:layout_width="match_parent" android:layout_height="wrap_content" 
+	    android:layout_width="match_parent" android:layout_height="@dimen/button_height" 
 	    android:background="@drawable/background_button" android:layout_marginBottom="10dp" 
-	    android:layout_marginLeft="10dp" android:layout_marginRight="10dp"/>
+	    android:layout_marginLeft="10dp" android:layout_marginRight="10dp" 
+	    android:textColor="@color/black" android:textSize="20sp"/>
 </LinearLayout>

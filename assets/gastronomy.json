@@ -1,0 +1,72 @@
+[
+	{
+		"type":"story",
+		"text1":"Tschou Heidi! Schön dich zu sehen. Damit du dich besser in der Schweiz zurechtfindest, mache ich dich mit den Schweizer Spezialitäten vertraut. Hast du Lust ein paar Fragen zu beantworten?",
+		"background":"heidigrossvater.jpg"
+	},
+	{
+		"type":"story",
+		"text1":"Jaaa klar!",
+		"background":"Heidi8.jpg"
+	},
+	{
+		"type":"question",
+		"questionText":"1. Aufgabe:\nWelches Getränk ist typisch für die Schweiz?",
+		"answer1":"Rivella",
+		"answer2":"Coca Cola",
+		"answer3":"Almdudler",
+		"good":"Rivella",
+		"questionImage":"Frage_1.jpg",
+		"placeholderImage":"edelweiss.jpg",
+		"goodImage":"Antwort_richtig.jpg",
+		"badImage":"016d18.jpg"
+	},
+	{
+		"type":"question",
+		"questionText":"2. Aufgabe:\nVon welchem Käse wird das Geheimrezept nicht verraten?",
+		"answer1":"Appenzeller Käse",
+		"answer2":"Camembert Caprice des Dieux",
+		"answer3":"Leerdammer",
+		"good":"Appenzeller Käse",
+		"questionImage":"Frage_1.jpg",
+		"placeholderImage":"edelweiss.jpg",
+		"goodImage":"Antwort_richtig.jpg",
+		"badImage":"016d18.jpg"
+	},
+	{
+		"type":"question",
+		"questionText":"3. Aufgabe:\nWelches ist ein typisches Schweizer Gericht?",
+		"answer1":"Rösti",
+		"answer2":"Knödel",
+		"answer3":"Strudel",
+		"good":"Rösti",
+		"questionImage":"Frage_1.jpg",
+		"placeholderImage":"edelweiss.jpg",
+		"goodImage":"Antwort_richtig.jpg",
+		"badImage":"016d18.jpg"
+	},
+	{
+		"type":"question",
+		"questionText":"4. Aufgabe:\nFür welches Schweizer Alkoholgetränk ist die Schweiz bekannt?",
+		"answer1":"Vodka",
+		"answer2":"Whisky",
+		"answer3":"Weisswein",
+		"good":"Weisswein",
+		"questionImage":"Frage_1.jpg",
+		"placeholderImage":"edelweiss.jpg",
+		"goodImage":"Antwort_richtig.jpg",
+		"badImage":"016d18.jpg"
+	},
+	{
+		"type":"question",
+		"questionText":"5. Aufgabe:\nWie viel Trinkgeld ist in der Schweiz üblich?",
+		"answer1":"Gar kein Trinkgeld",
+		"answer2":"15% - 20%",
+		"answer3":"5% - 10%",
+		"good":"5% - 10%",
+		"questionImage":"Frage_1.jpg",
+		"placeholderImage":"edelweiss.jpg",
+		"goodImage":"Antwort_richtig.jpg",
+		"badImage":"016d18.jpg"
+	}
+]

@@ -1,0 +1,72 @@
+[
+	{
+		"type":"story",
+		"text1":"So Heidi jetzt hast du etwas über die Schweizer Kulinarik und die Sprachen gelernt. Jetzt zeige ich dir noch die wichtigsten Schweizer Sehenswürdigkeiten.",
+		"background":"AlpOhi.jpg"
+	},
+	{
+		"type":"story",
+		"text1":"Ich bin schon sehr gespannt darauf!",
+		"background":"HeidiCrop.jpg"
+	},
+	{
+		"type":"question",
+		"questionText":"1. Aufgabe:\nWie heisst dieser Berg?",
+		"answer1":"Matterhorn",
+		"answer2":"Jungfraujoch",
+		"answer3":"Mont Blanc",
+		"good":"Matterhorn",
+		"questionImage":"Frage_1.jpg",
+		"placeholderImage":"matterhorn.jpg",
+		"goodImage":"Antwort_richtig.jpg",
+		"badImage":"016d18.jpg"
+	},
+	{
+		"type":"question",
+		"questionText":"2. Aufgabe:\nWo befindet sich der „Jet d’eau“?",
+		"answer1":"Genf",
+		"answer2":"Lausanne",
+		"answer3":"Fribourg",
+		"good":"Genf",
+		"questionImage":"Frage_1.jpg",
+		"placeholderImage":"edelweiss.jpg",
+		"goodImage":"Antwort_richtig.jpg",
+		"badImage":"016d18.jpg"
+	},
+	{
+		"type":"question",
+		"questionText":"3. Aufgabe:\nDie Kapellbrücke in Luzern ist die zweitlängste überdachte Holzbrücke in Europa. Wie lang ist sie ungefähr?",
+		"answer1":"200 Meter",
+		"answer2":"300 Meter",
+		"answer3":"150 Meter",
+		"good":"200 Meter",
+		"questionImage":"Frage_1.jpg",
+		"placeholderImage":"edelweiss.jpg",
+		"goodImage":"Antwort_richtig.jpg",
+		"badImage":"016d18.jpg"
+	},
+	{
+		"type":"question",
+		"questionText":"4. Aufgabe:\nWelche Tiere befinden sich im Graben von Bern?",
+		"answer1":"Bären",
+		"answer2":"Lamas",
+		"answer3":"Otter",
+		"good":"Bären",
+		"questionImage":"Frage_1.jpg",
+		"placeholderImage":"edelweiss.jpg",
+		"goodImage":"Antwort_richtig.jpg",
+		"badImage":"016d18.jpg"
+	},
+	{
+		"type":"question",
+		"questionText":"5. Aufgabe:\nWo befindet sich der einzige Nationalpark der Schweiz?",
+		"answer1":"Engadin",
+		"answer2":"Emmental",
+		"answer3":"Berner Oberland",
+		"good":"Engadin",
+		"questionImage":"Frage_1.jpg",
+		"placeholderImage":"edelweiss.jpg",
+		"goodImage":"Antwort_richtig.jpg",
+		"badImage":"016d18.jpg"
+	}
+]

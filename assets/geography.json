@@ -1,0 +1,72 @@
+[
+	{
+		"type":"story",
+		"text1":"Du hast jetzt viel über die Schweizer Sehenswürdigkeiten gelernt. Aber weisst du auch wo diese liegen?",
+		"background":"AlpOhi.jpg"
+	},
+	{
+		"type":"story",
+		"text1":"Nein, aber du zeigst es mir sicherlich gleich!",
+		"background":"HeidiCrop.jpg"
+	},
+	{
+		"type":"question",
+		"questionText":"1. Aufgabe:\nWelches ist die Hauptstadt der Schweiz?",
+		"answer1":"Bern",
+		"answer2":"Zürich",
+		"answer3":"Luzern",
+		"good":"Bern",
+		"questionImage":"Frage_1.jpg",
+		"placeholderImage":"edelweiss.jpg",
+		"goodImage":"Antwort_richtig.jpg",
+		"badImage":"016d18.jpg"
+	},
+	{
+		"type":"question",
+		"questionText":"2. Aufgabe:\nWelches ist der höchste Berg der Schweiz?",
+		"answer1":"Dufourspitze",
+		"answer2":"Matterhorn",
+		"answer3":"Eiger",
+		"good":"Dufourspitze",
+		"questionImage":"Frage_1.jpg",
+		"placeholderImage":"edelweiss.jpg",
+		"goodImage":"Antwort_richtig.jpg",
+		"badImage":"016d18.jpg"
+	},
+	{
+		"type":"question",
+		"questionText":"3. Aufgabe:\nWelches ist kein Nachbarland der Schweiz?",
+		"answer1":"Frankreich",
+		"answer2":"Liechtenstein",
+		"answer3":"Luxemburg",
+		"good":"Luxemburg",
+		"questionImage":"Frage_1.jpg",
+		"placeholderImage":"edelweiss.jpg",
+		"goodImage":"Antwort_richtig.jpg",
+		"badImage":"016d18.jpg"
+	},
+	{
+		"type":"question",
+		"questionText":"4. Aufgabe:\nWelcher Kanton ist flächenmässig der grösste?",
+		"answer1":"Graubünden",
+		"answer2":"Wallis",
+		"answer3":"Tessin",
+		"good":"Graubünden",
+		"questionImage":"Frage_1.jpg",
+		"placeholderImage":"edelweiss.jpg",
+		"goodImage":"Antwort_richtig.jpg",
+		"badImage":"016d18.jpg"
+	},
+	{
+		"type":"question",
+		"questionText":"5. Aufgabe:\nWelcher See liegt in der Schweiz",
+		"answer1":"Vierwaldstättersee",
+		"answer2":"Gardasee",
+		"answer3":"Plattensee",
+		"good":"Vierwaldstättersee",
+		"questionImage":"Frage_1.jpg",
+		"placeholderImage":"edelweiss.jpg",
+		"goodImage":"Antwort_richtig.jpg",
+		"badImage":"016d18.jpg"
+	}
+]

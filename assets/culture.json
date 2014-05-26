@@ -1,0 +1,72 @@
+[
+	{
+		"type":"story",
+		"text1":"Weisst du eigentlich etwas über die Schweizer Tradition?",
+		"background":"AlpOhi.jpg"
+	},
+	{
+		"type":"story",
+		"text1":"Nein, aber ich bin schon gespannt darauf etwas darüber zu erfahren.",
+		"background":"HeidiCrop.jpg"
+	},
+	{
+		"type":"question",
+		"questionText":"1. Aufgabe:\nWelche Sportart gilt als die Nationalsportart?",
+		"answer1":"Schwingen",
+		"answer2":"Surfen",
+		"answer3":"Baseball",
+		"good":"Schwingen",
+		"questionImage":"Frage_1.jpg",
+		"placeholderImage":"edelweiss.jpg",
+		"goodImage":"Antwort_richtig.jpg",
+		"badImage":"016d18.jpg"
+	},
+	{
+		"type":"question",
+		"questionText":"2. Aufgabe:\nWas ist ein Synonym für Fasnacht?",
+		"answer1":"Karneval",
+		"answer2":"Openair Festival",
+		"answer3":"Tenniscup ",
+		"good":"Karneval",
+		"questionImage":"Frage_1.jpg",
+		"placeholderImage":"edelweiss.jpg",
+		"goodImage":"Antwort_richtig.jpg",
+		"badImage":"016d18.jpg"
+	},
+	{
+		"type":"question",
+		"questionText":"3. Aufgabe:\nWas passierte geschichtlich Wichtiges auf der Rütliwiese?",
+		"answer1":"Die Schlacht gegen Napoleon",
+		"answer2":"Die Gründung der Schweiz",
+		"answer3":"Klara lernt laufen",
+		"good":"Die Gründung der Schweiz",
+		"questionImage":"Frage_1.jpg",
+		"placeholderImage":"edelweiss.jpg",
+		"goodImage":"Antwort_richtig.jpg",
+		"badImage":"016d18.jpg"
+	},
+	{
+		"type":"question",
+		"questionText":"4. Aufgabe:\nWelches ist ein typisches Schweizer Instrument?",
+		"answer1":"music_01.jpg",
+		"answer2":"music_02.jpg",
+		"answer3":"music_03.jpg",
+		"good":"music_01.jpg",
+		"questionImage":"Frage_1.jpg",
+		"placeholderImage":"edelweiss.jpg",
+		"goodImage":"Antwort_richtig.jpg",
+		"badImage":"016d18.jpg"
+	},
+	{
+		"type":"question",
+		"questionText":"5. Aufgabe:\nWie wird die Figur genannt, die jährlich in Zürich verbrennt wird?",
+		"answer1":"Schneemann",
+		"answer2":"Hugo",
+		"answer3":"Böögg",
+		"good":"Mich",
+		"questionImage":"Frage_1.jpg",
+		"placeholderImage":"edelweiss.jpg",
+		"goodImage":"Antwort_richtig.jpg",
+		"badImage":"016d18.jpg"
+	}
+]

@@ -11,27 +11,17 @@
 	},
 	{
 		"type":"story",
-		"text1":"Beantwortet die Fragen und l\u00F6st die Aufgaben, um m\u00F6glichst schnell ans Ziel zu gelangen.",
+		"text1":"Beantwortet die Fragen und l\u00F6st die Aufgaben, um m\u00F6glichst schnell ans Ziel zu gelangen.\n\nViel Spass!",
 		"background":"AlpOhi.jpg"
 	},
 	{
 		"type":"story",
-		"text1":"Viel Spass!",
-		"background":"AlpOhi.jpg"
-	},
-	{
-		"type":"story",
-		"text1":"Heidis Mutti ist bei einem Autounfall gestorben.",
-		"background":"AlpOhi.jpg"
-	},
-	{
-		"type":"story",
-		"text1":"Aus diesem Grund zieht meine Enkelin\nHeidi zu mir auf die Alp in den sch\u00F6nen Schweitzer Bergen.",
-		"background":"AlpOhi.jpg"
+		"text1":"Heidis Mutter ist in die Ferien gefahren. Deshalb kommt Heidi zu mir in die Schweiz.",
+		"background":"AlmOhi.jpg"
 	},
 	{
 		"type":"help",
-		"text1":"Morgen fliege ich von Wien\nmit der Swiss zu meinem\nOpa in die Schweitz.\nAber was muss ich \u00FCber die\nSchweitz wissen bevor ich\ndorhin reise?",
+		"text1":"Morgen fliege ich von Wien\nmit SkyWork zu meinem\nOpa in die Schweiz.\nWas muss ich \u00FCber die Schweiz wissen?",
 		"text2":"Hilf mir bitte!",
 		"background":"HeidiCrop.jpg"
 	},
@@ -49,7 +39,7 @@
 	},
 	{
 		"type":"question",
-		"questionText":"2. Aufgabe:\nWie viele Kantone hat die Schweitz?",
+		"questionText":"2. Aufgabe:\nWie viele Kantone hat die Schweiz?",
 		"answer1":"26",
 		"answer2":"15",
 		"answer3":"35",
@@ -61,7 +51,7 @@
 	},
 	{
 		"type":"question",
-		"questionText":"3. Aufgabe:\nWelche ist keine Landessprache der Schweitz?",
+		"questionText":"3. Aufgabe:\nWelche ist keine Landessprache der Schweiz?",
 		"answer1":"Italienisch",
 		"answer2":"Franz\u00F6sisch",
 		"answer3":"Spanisch",
@@ -73,7 +63,7 @@
 	},
 	{
 		"type":"question",
-		"questionText":"4. Aufgabe:\nWelche Regierungsform hat die Schweitz?",
+		"questionText":"4. Aufgabe:\nWelche Regierungsform hat die Schweiz?",
 		"answer1":"Diktatur",
 		"answer2":"Monarchie",
 		"answer3":"Demokratie",
@@ -85,7 +75,7 @@
 	},
 	{
 		"type":"question",
-		"questionText":"5. Aufgabe:\nWie sieht die Schweitzer Flagge aus?",
+		"questionText":"5. Aufgabe:\nWie sieht die Schweizer Flagge aus?",
 		"answer1":"schweiz_flag.jpg",
 		"answer2":"osterreich_flag.jpg",
 		"answer3":"denmark_flag.jpg",
@@ -97,7 +87,7 @@
 	},
 	{
 		"type":"ready",
-		"text":"Danke vielmal f\u00FCr deine Hilfe!\nSuper! Ich habe alle Fragen\nrichtig beantwortet. Jetzt bin\nich bereit f\u00FCr meine Reise in die Schweitz.\nAlp \u00D6hi wartet bereits auf\nmich!",
+		"text":"Danke vielmal f\u00FCr deine Hilfe!\nSuper! Ich habe alle Fragen\nrichtig beantwortet. Jetzt bin\nich bereit f\u00FCr meine Reise in die Schweiz.\nAlp \u00D6hi wartet bereits auf\nmich!",
 		"image":"15 marzo.jpg"
 	}
 ]

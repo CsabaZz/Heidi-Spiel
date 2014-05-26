@@ -9,13 +9,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import ch.szederkenyi.heidi.AppData;
+import ch.szederkenyi.heidi.R;
 import ch.szederkenyi.heidi.data.ImageLoader;
 import ch.szederkenyi.heidi.data.entities.Help;
 import ch.szederkenyi.heidi.messages.MessageHandler;
 import ch.szederkenyi.heidi.messages.NextStoryMessage;
 import ch.szederkenyi.heidi.ui.views.LockableScrollView;
-
-import com.example.heidi.R;
 
 public class HelpFragment extends BaseFragment implements OnClickListener {
     private static final String KEY_ENTITY_OBJECT = "StoryFragment::EntityObject";

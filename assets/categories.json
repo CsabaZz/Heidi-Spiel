@@ -1,0 +1,26 @@
+[
+	{
+		"title":"Gastronomie",
+		"datafile":"gastronomy.json"
+	},
+	{
+		"title":"Sprachen",
+		"datafile":"language.json"
+	},
+	{
+		"title":"Sights",
+		"datafile":"sights.json"
+	},
+	{
+		"title":"Geographie",
+		"datafile":"geography.json"
+	},
+	{
+		"title":"Kultur",
+		"datafile":"culture.json"
+	},
+	{
+		"title":"Logos",
+		"datafile":"logos.json"
+	}
+]
