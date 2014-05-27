@@ -11,4 +11,8 @@
 	
 	<string name="resultRightText">Richtig!</string>
 	<string name="resultWrongText">Falsch!</string>
+	
+	<string name="dialogBadAnswerTitle">Aww!</string>
+	<string name="dialogBadAnswerText">The answer is wrong, please repeate the whole section.</string>
+	<string name="dialogBadAnswerButton">OK, I got it\u2026</string>
 </resources>

@@ -11,23 +11,26 @@ import ch.szederkenyi.heidi.R;
 import ch.szederkenyi.heidi.async.AbstractTask;
 import ch.szederkenyi.heidi.async.StoryboardTask;
 import ch.szederkenyi.heidi.data.entities.BaseEntity;
+import ch.szederkenyi.heidi.messages.FirstStoryMessage;
 import ch.szederkenyi.heidi.messages.MessageHandler;
 import ch.szederkenyi.heidi.messages.NextStoryMessage;
 import ch.szederkenyi.heidi.ui.adapters.StoryboardAdapter;
 import ch.szederkenyi.heidi.ui.views.LockableViewPager;
+import ch.szederkenyi.heidi.utils.ConstantUtils;
 
 import java.util.Collection;
 
-public class StoryboardActivity extends BaseActivity implements Callback, Runnable {
+public class StoryboardActivity extends BaseActivity implements Callback {
     
     public static final String EXTRA_DATAFILE = "StoryboardActivity::Datafile";
-    
-    private static final int MSG_TASK = 1;
     
     private LockableViewPager mViewPager;
     private StoryboardAdapter mAdapter;
     
     private Handler mTaskHandler;
+    
+    private FirstPageRunnable mFirstRunnable;
+    private NextPageRunnable mNextRunnable;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +38,12 @@ public class StoryboardActivity extends BaseActivity implements Callback, Runnab
         setContentView(R.layout.storyboard);
         
         mTaskHandler = new Handler(this);
+        
+        mFirstRunnable = new FirstPageRunnable();
+        mFirstRunnable.setActivity(this);
+        
+        mNextRunnable = new NextPageRunnable();
+        mNextRunnable.setActivity(this);
         
         mAdapter = new StoryboardAdapter(getSupportFragmentManager());
         
@@ -44,7 +53,8 @@ public class StoryboardActivity extends BaseActivity implements Callback, Runnab
         
         final AppData appdata = AppData.getInstance();
         final MessageHandler handler = appdata.getMessageHandler();
-        handler.register(NextStoryMessage.class, this, this);
+        handler.register(FirstStoryMessage.class, this, mFirstRunnable);
+        handler.register(NextStoryMessage.class, this, mNextRunnable);
     }
     
     @Override
@@ -58,7 +68,7 @@ public class StoryboardActivity extends BaseActivity implements Callback, Runnab
             final AbstractTask.Entity entity = new AbstractTask.Entity();
             entity.filename = dataFile;
             
-            final StoryboardTask task = new StoryboardTask(mTaskHandler, MSG_TASK);
+            final StoryboardTask task = new StoryboardTask(mTaskHandler, ConstantUtils.MSG_TASK);
             task.start(entity);
         }
     }
@@ -68,14 +78,26 @@ public class StoryboardActivity extends BaseActivity implements Callback, Runnab
         final AppData appdata = AppData.getInstance();
         final MessageHandler handler = appdata.getMessageHandler();
         handler.unregister(NextStoryMessage.class, this);
+        handler.unregister(FirstStoryMessage.class, this);
+        
+        if(null != mNextRunnable) {
+            mNextRunnable.setActivity(null);
+            mNextRunnable = null;
+        }
+        
+        if(null != mFirstRunnable) {
+            mFirstRunnable.setActivity(null);
+            mFirstRunnable = null;
+        }
         
         mViewPager = null;
+        
         super.onDestroy();
     }
 
     @Override
     public boolean handleMessage(Message msg) {
-        if(msg.what == MSG_TASK) {
+        if(msg.what == ConstantUtils.MSG_TASK) {
             @SuppressWarnings("unchecked")
             final Collection<? extends BaseEntity> entities = (Collection<? extends BaseEntity>) msg.obj;
             mAdapter.addAll(entities);
@@ -86,14 +108,50 @@ public class StoryboardActivity extends BaseActivity implements Callback, Runnab
         
         return false;
     }
+    
+    public boolean isLastPage() {
+        return mViewPager.getCurrentItem() == mAdapter.getCount() - 1;
+    }
+    
+    public void showNextPage() {
+        mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1, true);
+    }
+    
+    public void showFirstPage() {
+        mViewPager.setCurrentItem(0, false);
+    }
+    
+    public void showCategories() {
+        finish();
+        startActivity(new Intent(this, CategoryChooserActivity.class));
+    }
+    
+    private static abstract class BaseRunnable implements Runnable {
+        protected StoryboardActivity mActivity;
 
-    @Override
-    public void run() {
-        if(mViewPager.getCurrentItem() < mAdapter.getCount() - 1) {
-            mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1, true);
-        } else {
-            finish();
-            startActivity(new Intent(this, CategoryChooserActivity.class));
+        public void setActivity(StoryboardActivity mActivity) {
+            this.mActivity = mActivity;
+        }
+        
+    }
+    
+    private static class FirstPageRunnable extends BaseRunnable {
+
+        @Override
+        public void run() {
+            mActivity.showFirstPage();
+        }
+    }
+    
+    private static class NextPageRunnable extends BaseRunnable {
+
+        @Override
+        public void run() {
+            if(mActivity.isLastPage()) {
+                mActivity.showCategories();
+            } else {
+                mActivity.showNextPage();
+            }
         }
     }
 

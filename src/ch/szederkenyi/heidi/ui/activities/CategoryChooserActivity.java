@@ -18,13 +18,12 @@ import ch.szederkenyi.heidi.StaticContextApplication;
 import ch.szederkenyi.heidi.async.AbstractTask;
 import ch.szederkenyi.heidi.async.CategoryTask;
 import ch.szederkenyi.heidi.data.entities.Category;
+import ch.szederkenyi.heidi.utils.ConstantUtils;
 
 import java.util.Collection;
 import java.util.Vector;
 
 public class CategoryChooserActivity extends BaseActivity implements Callback, View.OnClickListener {
-    
-    private static final int MSG_TASK = 1;
     
     private ListView mListView;
     private CategoryListAdapter mAdapter;
@@ -53,7 +52,7 @@ public class CategoryChooserActivity extends BaseActivity implements Callback, V
             final AbstractTask.Entity entity = new AbstractTask.Entity();
             entity.filename = "categories.json";
             
-            final CategoryTask task = new CategoryTask(mTaskHandler, MSG_TASK);
+            final CategoryTask task = new CategoryTask(mTaskHandler, ConstantUtils.MSG_TASK);
             task.start(entity);
         }
     }
@@ -77,7 +76,7 @@ public class CategoryChooserActivity extends BaseActivity implements Callback, V
 
     @Override
     public boolean handleMessage(Message msg) {
-        if(msg.what == MSG_TASK) {
+        if(msg.what == ConstantUtils.MSG_TASK) {
             @SuppressWarnings("unchecked")
             final Collection<? extends Category> entities = (Collection<? extends Category>) msg.obj;
             mAdapter.addAll(entities);

@@ -1,5 +1,7 @@
 package ch.szederkenyi.heidi.ui.fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,16 +18,15 @@ import ch.szederkenyi.heidi.AppData;
 import ch.szederkenyi.heidi.R;
 import ch.szederkenyi.heidi.data.ImageLoader;
 import ch.szederkenyi.heidi.data.entities.Question;
+import ch.szederkenyi.heidi.messages.FirstStoryMessage;
 import ch.szederkenyi.heidi.messages.MessageHandler;
 import ch.szederkenyi.heidi.messages.NextStoryMessage;
 import ch.szederkenyi.heidi.ui.views.RoundedImageView;
+import ch.szederkenyi.heidi.utils.ConstantUtils;
 import ch.szederkenyi.heidi.utils.Utils;
 
 public class QuestionFragment extends BaseFragment implements OnClickListener {
     private static final String KEY_ENTITY_OBJECT = "QuestionFragment::EntityObject";
-    
-    private static final int DELAY_GOOD_ANSWER = 2500;
-    private static final int DELAY_BAD_ANSWER = 2500;
     
     private TextView mQuestionText;
     
@@ -165,7 +166,7 @@ public class QuestionFragment extends BaseFragment implements OnClickListener {
             mResultText.setTextColor(Color.GREEN);
             mResultText.setText(R.string.resultRightText);
             
-            handler.sendEmptyMessageDelayed(0, DELAY_GOOD_ANSWER);
+            handler.sendEmptyMessageDelayed(ConstantUtils.MSG_GOOD_ANSER, ConstantUtils.DELAY_GOOD_ANSWER);
         } else {
             ImageLoader.loadImageFromAsset(mQuestionImage, mQuestionObject.badImage);
             
@@ -176,7 +177,17 @@ public class QuestionFragment extends BaseFragment implements OnClickListener {
             mAnswer2Button.setChecked(true);
             mAnswer3Button.setChecked(true);
             
-            handler.sendEmptyMessageDelayed(0, DELAY_BAD_ANSWER);
+            final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+            dialog.setTitle(R.string.dialogBadAnswerTitle);
+            dialog.setMessage(R.string.dialogBadAnswerText);
+            dialog.setPositiveButton(R.string.dialogBadAnswerButton, new DialogInterface.OnClickListener() {
+                
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    handler.sendEmptyMessage(ConstantUtils.MSG_BAD_ANSWER);
+                }
+            });
+            dialog.show();
         }
         
         mResultText.setVisibility(View.VISIBLE);
@@ -188,8 +199,16 @@ public class QuestionFragment extends BaseFragment implements OnClickListener {
         public boolean handleMessage(Message msg) {
             final AppData appdata = AppData.getInstance();
             final MessageHandler handler = appdata.getMessageHandler();
-            handler.sendMessage(NextStoryMessage.class);
-            return false;
+            
+            if(msg.what == ConstantUtils.MSG_GOOD_ANSER) {
+                handler.sendMessage(NextStoryMessage.class);
+                return true;
+            } else if(msg.what == ConstantUtils.MSG_BAD_ANSWER) {
+                handler.sendMessage(FirstStoryMessage.class);
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 }
