@@ -3,4 +3,31 @@
 	android:layout_width="match_parent" android:layout_height="match_parent">
 	<ch.szederkenyi.heidi.ui.views.LockableViewPager android:id="@+id/storyboard_viewpager" 
 	    android:layout_width="match_parent" android:layout_height="match_parent"/>
+	<LinearLayout android:id="@+id/storyboard_button_layout" android:orientation="horizontal" 
+	    android:layout_width="match_parent" android:layout_height="wrap_content" 
+	    android:layout_alignParentBottom="true" android:padding="5dp" android:visibility="gone">
+		<Button android:id="@+id/storyboard_first_page" android:background="@drawable/background_button" 
+		    android:layout_width="wrap_content" android:layout_height="wrap_content" 
+		    android:drawablePadding="5dp" android:drawableTop="@drawable/icon_media_first" 
+		    android:textSize="12sp" android:textColor="@color/black" 
+		    android:textStyle="bold" android:text="@string/storyFirstPageText"/>
+		<Button android:id="@+id/storyboard_previous_page" android:background="@drawable/background_button" 
+		    android:layout_width="wrap_content" android:layout_height="wrap_content" 
+		    android:layout_marginLeft="5dp" 
+		    android:drawablePadding="5dp" android:drawableTop="@drawable/icon_media_previous" 
+		    android:textSize="12sp" android:textColor="@color/black" 
+		    android:textStyle="bold" android:text="@string/storyPreviousPageText"/>
+		<ch.szederkenyi.heidi.ui.views.Space android:layout_width="0dp" android:layout_height="0dp" android:layout_weight="1"/>
+		<Button android:id="@+id/storyboard_next_page" android:background="@drawable/background_button" 
+		    android:layout_width="wrap_content" android:layout_height="wrap_content" 
+		    android:layout_marginRight="5dp" 
+		    android:drawablePadding="5dp" android:drawableTop="@drawable/icon_media_next" 
+		    android:textSize="12sp" android:textColor="@color/black" 
+		    android:textStyle="bold" android:text="@string/storyNextPageText"/>
+		<Button android:id="@+id/storyboard_last_page" android:background="@drawable/background_button" 
+		    android:layout_width="wrap_content" android:layout_height="wrap_content" 
+		    android:drawablePadding="5dp" android:drawableTop="@drawable/icon_media_last" 
+		    android:textSize="12sp" android:textColor="@color/black" 
+		    android:textStyle="bold" android:text="@string/storyLastPageText"/>
+	</LinearLayout>
 </RelativeLayout>

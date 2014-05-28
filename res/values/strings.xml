@@ -15,4 +15,9 @@
 	<string name="dialogBadAnswerTitle">Aww!</string>
 	<string name="dialogBadAnswerText">The answer is wrong, please repeate the whole section.</string>
 	<string name="dialogBadAnswerButton">OK, I got it\u2026</string>
+	
+	<string name="storyNextPageText">next</string>
+	<string name="storyLastPageText">last</string>
+	<string name="storyPreviousPageText">previous</string>
+	<string name="storyFirstPageText">first</string>
 </resources>

@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import ch.szederkenyi.heidi.AppData;
@@ -16,7 +17,8 @@ import ch.szederkenyi.heidi.messages.NextStoryMessage;
 
 public class StoryFragment extends BaseFragment implements OnClickListener {
     private static final String KEY_ENTITY_OBJECT = "StoryFragment::EntityObject";
-    
+
+    private ImageView mImageText;
     private TextView mBubbleText;
     
     private Story mStoryObject;
@@ -45,6 +47,8 @@ public class StoryFragment extends BaseFragment implements OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View contentView = inflater.inflate(R.layout.story, container, false);
         contentView.setOnClickListener(this);
+        
+        mImageText = (ImageView) contentView.findViewById(R.id.story_image);
         
         mBubbleText = (TextView) contentView.findViewById(R.id.story_bubble);
         mBubbleText.setText(mStoryObject.text);
