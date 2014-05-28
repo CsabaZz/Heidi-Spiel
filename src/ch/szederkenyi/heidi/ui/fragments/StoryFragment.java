@@ -18,7 +18,7 @@ import ch.szederkenyi.heidi.messages.NextStoryMessage;
 public class StoryFragment extends BaseFragment implements OnClickListener {
     private static final String KEY_ENTITY_OBJECT = "StoryFragment::EntityObject";
 
-    private ImageView mImageText;
+    private ImageView mImageView;
     private TextView mBubbleText;
     
     private Story mStoryObject;
@@ -48,12 +48,12 @@ public class StoryFragment extends BaseFragment implements OnClickListener {
         final View contentView = inflater.inflate(R.layout.story, container, false);
         contentView.setOnClickListener(this);
         
-        mImageText = (ImageView) contentView.findViewById(R.id.story_image);
+        mImageView = (ImageView) contentView.findViewById(R.id.story_image);
         
         mBubbleText = (TextView) contentView.findViewById(R.id.story_bubble);
         mBubbleText.setText(mStoryObject.text);
         
-        ImageLoader.loadBackgroundFromAsset(contentView, mStoryObject.background);
+        ImageLoader.loadImageFromAsset(mImageView, mStoryObject.background);
         
         return contentView;
     }
