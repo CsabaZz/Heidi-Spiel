@@ -3,7 +3,7 @@
 	android:layout_width="match_parent" android:layout_height="match_parent">
 	<ImageView android:id="@+id/story_image" android:scaleType="centerCrop" 
 	    android:layout_width="match_parent" android:layout_height="match_parent" 
-	    android:layout_marginTop="60dp" android:layout_marginBottom="0dp"/>
+	    android:layout_marginTop="60dp" android:layout_alignParentBottom="true"/>
 	<TextView android:id="@+id/story_bubble" android:background="@drawable/background_bubble_top"  
 	    android:layout_width="match_parent" android:layout_height="wrap_content" 
 	    android:layout_margin="1dp" android:padding="20dp" 

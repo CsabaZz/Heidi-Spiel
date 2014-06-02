@@ -80,7 +80,7 @@ public class QuestionFragment extends BaseFragment implements OnClickListener {
         mQuestionImage.setCornerRadius(Utils.getDip(10f));
         
         ImageLoader.loadImageFromAsset(mSpaceHolderImage, mQuestionObject.placeholder);
-        ImageLoader.loadImageFromAsset(mQuestionImage, mQuestionObject.questionImage, Utils.getDip(60));
+        ImageLoader.loadImageFromAsset(mQuestionImage, mQuestionObject.questionImage);
         
         initializeButton(mAnswer1Button, mQuestionObject.answer1);
         initializeButton(mAnswer2Button, mQuestionObject.answer2);

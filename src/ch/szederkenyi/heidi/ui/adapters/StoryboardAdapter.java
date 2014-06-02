@@ -5,10 +5,12 @@ import android.support.v4.app.FragmentManager;
 
 import ch.szederkenyi.heidi.data.entities.BaseEntity;
 import ch.szederkenyi.heidi.data.entities.Help;
+import ch.szederkenyi.heidi.data.entities.PicsSelectGameEntity;
 import ch.szederkenyi.heidi.data.entities.Question;
 import ch.szederkenyi.heidi.data.entities.Ready;
 import ch.szederkenyi.heidi.data.entities.Story;
 import ch.szederkenyi.heidi.ui.fragments.HelpFragment;
+import ch.szederkenyi.heidi.ui.fragments.PicsSelectGameFragment;
 import ch.szederkenyi.heidi.ui.fragments.QuestionFragment;
 import ch.szederkenyi.heidi.ui.fragments.ReadyFragment;
 import ch.szederkenyi.heidi.ui.fragments.StoryFragment;
@@ -42,6 +44,8 @@ public class StoryboardAdapter extends FragmentHashStatePagerAdapter {
             return ReadyFragment.instantiate((Ready)entity);
         } else if(entity instanceof Help) {
             return HelpFragment.instantiate((Help)entity);
+        } else if(entity instanceof PicsSelectGameEntity) {
+            return PicsSelectGameFragment.instantiate((PicsSelectGameEntity)entity);
         }
         
         return null;
