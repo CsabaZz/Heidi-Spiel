@@ -68,5 +68,9 @@
 		"placeholderImage":"edelweiss.jpg",
 		"goodImage":"Antwort_richtig.jpg",
 		"badImage":"016d18.jpg"
+	},
+	{
+		"type":"pics_select_game",
+		"folder":"geo"
 	}
 ]

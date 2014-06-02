@@ -1,9 +1,5 @@
 [
 	{
-		"type":"pics_select_game",
-		"folder":"geo"
-	},
-	{
 		"type":"story",
 		"text1":"Gr\u00FCezi Mitenand.\nHerzlich willkommen zu dem Heidi Spiel.",
 		"background":"AlpOhi.jpg"
