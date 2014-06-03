@@ -1,6 +1,8 @@
 package ch.szederkenyi.heidi.ui.fragments;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,12 +17,17 @@ import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import ch.szederkenyi.heidi.AppData;
 import ch.szederkenyi.heidi.R;
 import ch.szederkenyi.heidi.StaticContextApplication;
 import ch.szederkenyi.heidi.data.ImageLoader;
+import ch.szederkenyi.heidi.data.entities.BaseEntity;
 import ch.szederkenyi.heidi.data.entities.PicsSelectGameEntity;
+import ch.szederkenyi.heidi.messages.FirstStoryMessage;
+import ch.szederkenyi.heidi.messages.MessageHandler;
 import ch.szederkenyi.heidi.ui.AnimationViewListener;
 import ch.szederkenyi.heidi.utils.ConstantUtils;
 import ch.szederkenyi.heidi.utils.Utils;
@@ -33,10 +40,15 @@ public class PicsSelectGameFragment extends BaseFragment implements Callback, Vi
     private static final String TAG = Utils.makeTag(PicsSelectGameFragment.class);
     
     private static final String KEY_ENTITY_OBJECT = "PicsSelectGameFragment::EntityObject";
+    private static final String KEY_RESULTS_OBJECT = "PicsSelectGameFragment::ResultsObject";
     
     private enum AnimationDirection {
         LEFT_2_RIGHT, RIGHT_2_LEFT
     }
+    
+    private ViewGroup mImageRoot;
+    
+    private TextView mPointsText;
     
     private Handler mGameHandler;
     private AnimationDirection mAnimationDirection;
@@ -44,6 +56,8 @@ public class PicsSelectGameFragment extends BaseFragment implements Callback, Vi
     private PicsSelectGameEntity mGameObject;
     
     private ArrayList<String> mImageList;
+    
+    private Results mResults;
 
     public static Fragment instantiate(PicsSelectGameEntity gameObject) {
         final Bundle args = new Bundle();
@@ -61,6 +75,12 @@ public class PicsSelectGameFragment extends BaseFragment implements Callback, Vi
         
         mGameHandler = new Handler(this);
         mAnimationDirection = AnimationDirection.LEFT_2_RIGHT;
+        
+        if(null == savedInstanceState) {
+            mResults = new Results();
+        } else {
+            mResults = (Results) savedInstanceState.getSerializable(KEY_RESULTS_OBJECT);
+        }
         
         final Bundle args = getArguments();
         if(null != args) {
@@ -94,15 +114,37 @@ public class PicsSelectGameFragment extends BaseFragment implements Callback, Vi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View contentView = inflater.inflate(R.layout.pics_select_game, container, false);
+        
+        mImageRoot = (ViewGroup) contentView.findViewById(R.id.pics_select_game_image_cradle);
+        
+        mPointsText = (TextView) contentView.findViewById(R.id.pics_select_game_points_text);
+        
+        mPointsText.setText(String.format(getString(R.string.picSelectPointsText), mResults.points));
+        
         return contentView;
+    }
+    
+    @Override
+    public void onDestroyView() {
+        mPointsText = null;
+        mImageRoot = null;
+        super.onDestroyView();
     }
     
     @Override
     public void onStart() {
         super.onStart();
         
+        mResults.finished = false;
+        
         final Message removeMsg = Message.obtain(mGameHandler, ConstantUtils.MSG_ADD_IMAGE);
         mGameHandler.sendMessage(removeMsg);
+    }
+    
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable(KEY_RESULTS_OBJECT, mResults);
     }
     
     @Override
@@ -121,26 +163,52 @@ public class PicsSelectGameFragment extends BaseFragment implements Callback, Vi
         
         if(imageName.contains("/right/")) {
             Toast.makeText(getActivity(), "RIGHT", Toast.LENGTH_SHORT).show();
+            
+            mResults.points += 1;
+            mPointsText.setText(String.format(getString(R.string.picSelectPointsText), mResults.points));
         } else {
+            mResults.finished = true;
+            
             Toast.makeText(getActivity(), "WRONG", Toast.LENGTH_SHORT).show();
+            
+            final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+            dialog.setTitle(R.string.dialogBadAnswerTitle);
+            dialog.setMessage(R.string.dialogBadAnswerText);
+            dialog.setPositiveButton(R.string.dialogBadAnswerButton, new DialogInterface.OnClickListener() {
+                
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mResults.points = 0;
+                    mPointsText.setText(String.format(getString(R.string.picSelectPointsText), mResults.points));
+                    
+                    final AppData appdata = AppData.getInstance();
+                    final MessageHandler handler = appdata.getMessageHandler();
+                    handler.sendMessage(FirstStoryMessage.class);
+                }
+            });
+            dialog.show();
         }
     }
 
     @Override
     public boolean handleMessage(Message msg) {
+        if(null == mImageRoot) {
+            return false;
+        }
+        
         if(msg.what == ConstantUtils.MSG_ADD_IMAGE) {
             final Activity activity = getActivity();
             final LayoutInflater inflater = activity.getLayoutInflater();
             
-            final ViewGroup parentView = (ViewGroup) getView();
-            final View cellView = inflater.inflate(R.layout.pics_select_game_cell, parentView, false);
-            parentView.addView(cellView);
+            final View cellView = inflater.inflate(R.layout.pics_select_game_cell, mImageRoot, false);
+            mImageRoot.addView(cellView);
             
             final AnimationViewListener animationListener = new AnimationViewListener(this);
             animationListener.setView(cellView);
             
             final Animation animation = AnimationUtils.loadAnimation(activity, getAnimResId());
             animation.setAnimationListener(animationListener);
+            animation.setFillAfter(true);
             
             final String imagename = mImageList.get(0);
             mImageList.remove(0);
@@ -156,9 +224,7 @@ public class PicsSelectGameFragment extends BaseFragment implements Callback, Vi
             return true;
         } else if(msg.what == ConstantUtils.MSG_REMOVE_IMAGE) {
             final View cellView = (View) msg.obj;
-            
-            final ViewGroup parentView = (ViewGroup) getView();
-            parentView.removeView(cellView);
+            mImageRoot.removeView(cellView);
             
             final Message removeMsg = Message.obtain(mGameHandler, ConstantUtils.MSG_ADD_IMAGE);
             mGameHandler.sendMessage(removeMsg);
@@ -187,6 +253,10 @@ public class PicsSelectGameFragment extends BaseFragment implements Callback, Vi
 
     @Override
     public void onAnimationEnd(Animation animation) {
+        if(mResults.finished) {
+            return;
+        }
+        
         final AnimationViewListener animationListener = (AnimationViewListener) getAnimationListener(animation);
         final View cellView = animationListener.getView();
         
@@ -218,9 +288,20 @@ public class PicsSelectGameFragment extends BaseFragment implements Callback, Vi
         } catch (IllegalAccessException ex) {
             Log.e(TAG, "Can not access to field: mListener", ex);
         } catch (IllegalArgumentException ex) {
-            Log.e(TAG, "Somethign goes wrong with mListener", ex);
+            Log.e(TAG, "Something goes wrong with mListener", ex);
         }
         
         return null;
+    }
+    
+    private static class Results extends BaseEntity {
+
+        /**
+         * 
+         */
+        private static final long serialVersionUID = -121232782554920580L;
+        
+        public int points;
+        public boolean finished;
     }
 }

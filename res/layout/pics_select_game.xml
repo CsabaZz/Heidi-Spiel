@@ -2,4 +2,22 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" 
     android:id="@+id/pics_select_game_root" android:background="@color/white" 
 	android:layout_width="match_parent" android:layout_height="match_parent">
+	<LinearLayout android:id="@+id/pics_select_game_result_cradle" 
+		android:layout_width="match_parent" android:layout_height="44dp" 
+		android:orientation="horizontal" android:baselineAligned="false" 
+		android:layout_alignParentBottom="true">
+	    <TextView android:id="@+id/pics_select_game_points_title" 
+			android:layout_width="0dp" android:layout_height="match_parent" 
+			android:layout_weight="1" android:gravity="right|center_vertical" 
+			android:textSize="18sp" android:textStyle="bold" 
+			android:text="@string/picSelectResultsTitle"/>
+	    <TextView android:id="@+id/pics_select_game_points_text" 
+			android:layout_width="100dp" android:layout_height="match_parent" 
+			android:layout_weight="0" android:gravity="right|center_vertical" 
+			android:textSize="18sp" android:textStyle="bold" 
+			android:text="@string/picSelectPointsText"/>
+	</LinearLayout>
+	<RelativeLayout android:id="@+id/pics_select_game_image_cradle" 
+		android:layout_width="match_parent" android:layout_height="match_parent" 
+		android:layout_above="@+id/pics_select_game_result_cradle"/>
 </RelativeLayout>
