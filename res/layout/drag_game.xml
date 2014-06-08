@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:id="@+id/drag_game_layer" android:orientation="vertical" 
+	android:layout_width="match_parent" android:layout_height="match_parent">
+	<LinearLayout android:id="@+id/drag_game_result_cradle" 
+		android:layout_width="match_parent" android:layout_height="44dp" 
+		android:orientation="horizontal" android:baselineAligned="false" 
+		android:layout_alignParentBottom="true">
+	    <TextView android:id="@+id/drag_game_points_title" 
+			android:layout_width="0dp" android:layout_height="match_parent" 
+			android:layout_weight="1" android:gravity="right|center_vertical" 
+			android:textSize="18sp" android:textStyle="bold" 
+			android:text="@string/picSelectResultsTitle"/>
+	    <TextView android:id="@+id/drag_game_points_text" 
+			android:layout_width="100dp" android:layout_height="match_parent" 
+			android:layout_weight="0" android:gravity="right|center_vertical" 
+			android:textSize="18sp" android:textStyle="bold" 
+			android:text="@string/picSelectPointsText"/>
+	</LinearLayout>
+	<ImageView android:id="@+id/drag_game_conveying" android:background="@drawable/conveying_bitmap" 
+	    android:layout_width="match_parent" android:layout_height="wrap_content" 
+	    android:layout_above="@+id/drag_game_result_cradle"/>
+	<ch.szederkenyi.heidi.ui.views.dragview.DropImage android:id="@+id/drag_game_pan" 
+	    android:layout_width="100dp" android:layout_height="75dp" 
+	    android:layout_above="@+id/drag_game_result_cradle" android:layout_centerHorizontal="true" 
+	    android:scaleType="fitCenter" android:src="@drawable/pan"/>
+	<ch.szederkenyi.heidi.ui.views.dragview.DragLayer android:id="@+id/drag_game_zutaten_layout" 
+	    android:layout_width="match_parent" android:layout_height="50dp" 
+	    android:layout_above="@+id/drag_game_conveying">
+		<ImageView android:id="@+id/drag_game_zutaten" 
+		    android:layout_width="100dp" android:layout_height="50dp"/>
+	</ch.szederkenyi.heidi.ui.views.dragview.DragLayer>
+</RelativeLayout>

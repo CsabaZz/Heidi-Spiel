@@ -16,6 +16,10 @@
 	<string name="dialogBadAnswerText">The answer is wrong, please repeate the whole section.</string>
 	<string name="dialogBadAnswerButton">OK, I got it\u2026</string>
 	
+	<string name="dialogPicSelectionSuccessTitle">Congratulation!</string>
+	<string name="dialogPicSelectionSuccessText">You\'ve picked up every single image, keep up the good work!</string>
+	<string name="dialogPicSelectionSuccessButton">Thanks!</string>
+	
 	<string name="storyNextPageText">next</string>
 	<string name="storyLastPageText">last</string>
 	<string name="storyPreviousPageText">previous</string>

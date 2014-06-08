@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,14 +19,15 @@ import ch.szederkenyi.heidi.AppData;
 import ch.szederkenyi.heidi.R;
 import ch.szederkenyi.heidi.data.ImageLoader;
 import ch.szederkenyi.heidi.data.entities.Question;
-import ch.szederkenyi.heidi.messages.FirstStoryMessage;
+import ch.szederkenyi.heidi.messages.FirstQuestionMessage;
 import ch.szederkenyi.heidi.messages.MessageHandler;
 import ch.szederkenyi.heidi.messages.NextStoryMessage;
+import ch.szederkenyi.heidi.ui.IResetable;
 import ch.szederkenyi.heidi.ui.views.RoundedImageView;
 import ch.szederkenyi.heidi.utils.ConstantUtils;
 import ch.szederkenyi.heidi.utils.Utils;
 
-public class QuestionFragment extends BaseFragment implements OnClickListener {
+public class QuestionFragment extends BaseFragment implements OnClickListener, IResetable {
     private static final String KEY_ENTITY_OBJECT = "QuestionFragment::EntityObject";
     
     private TextView mQuestionText;
@@ -86,7 +88,7 @@ public class QuestionFragment extends BaseFragment implements OnClickListener {
         initializeButton(mAnswer2Button, mQuestionObject.answer2);
         initializeButton(mAnswer3Button, mQuestionObject.answer3);
         
-        mResultText.setVisibility(View.GONE);
+        resetInterface();
         
         return contentView;
     }
@@ -148,6 +150,23 @@ public class QuestionFragment extends BaseFragment implements OnClickListener {
             return super.getStackName() + "://" + mQuestionObject.id;
         }
     }
+    
+    @Override
+    public void resetInterface() {
+        if(null == getView()) {
+            return;
+        }
+        
+        mAnswer1Button.setEnabled(true);
+        mAnswer2Button.setEnabled(true);
+        mAnswer3Button.setEnabled(true);
+        
+        mAnswer1Button.setChecked(false);
+        mAnswer2Button.setChecked(false);
+        mAnswer3Button.setChecked(false);
+        
+        mResultText.setVisibility(View.GONE);
+    }
 
     @Override
     public void onClick(View v) {
@@ -158,7 +177,10 @@ public class QuestionFragment extends BaseFragment implements OnClickListener {
         final ToggleButton button = (ToggleButton) v;
         final String answer = (String)button.getTag();
         
-        final Handler handler = new Handler(new DelayCallback());
+        final DelayCallback callback = new DelayCallback();
+        callback.setResetable(this);
+        
+        final Handler handler = new Handler(callback);
         
         if(mQuestionObject.goodAnswer.equalsIgnoreCase(answer)) {
             ImageLoader.loadImageFromAsset(mQuestionImage, mQuestionObject.goodImage);
@@ -187,7 +209,10 @@ public class QuestionFragment extends BaseFragment implements OnClickListener {
                     handler.sendEmptyMessage(ConstantUtils.MSG_BAD_ANSWER);
                 }
             });
-            dialog.show();
+            
+            final AlertDialog d = dialog.create();
+            d.getWindow().setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL);
+            d.show();
         }
         
         mResultText.setVisibility(View.VISIBLE);
@@ -195,8 +220,18 @@ public class QuestionFragment extends BaseFragment implements OnClickListener {
     
     private static class DelayCallback implements Handler.Callback {
         
+        private IResetable mResetable;
+        
+        public void setResetable(IResetable resetable) {
+            mResetable = resetable;
+        }
+        
         @Override
         public boolean handleMessage(Message msg) {
+            if(null != mResetable) {
+                mResetable.resetInterface();
+            }
+            
             final AppData appdata = AppData.getInstance();
             final MessageHandler handler = appdata.getMessageHandler();
             
@@ -204,7 +239,7 @@ public class QuestionFragment extends BaseFragment implements OnClickListener {
                 handler.sendMessage(NextStoryMessage.class);
                 return true;
             } else if(msg.what == ConstantUtils.MSG_BAD_ANSWER) {
-                handler.sendMessage(FirstStoryMessage.class);
+                handler.sendMessage(FirstQuestionMessage.class);
                 return true;
             } else {
                 return false;

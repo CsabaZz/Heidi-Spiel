@@ -2,6 +2,7 @@ package ch.szederkenyi.heidi.async.callable;
 
 import ch.szederkenyi.heidi.async.AbstractTask.Entity;
 import ch.szederkenyi.heidi.data.entities.BaseEntity;
+import ch.szederkenyi.heidi.data.entities.DragGameEntity;
 import ch.szederkenyi.heidi.data.entities.Help;
 import ch.szederkenyi.heidi.data.entities.PicsSelectGameEntity;
 import ch.szederkenyi.heidi.data.entities.Question;
@@ -75,6 +76,13 @@ public class StoryboardCallable extends AbstractListCallable<BaseEntity> {
                 entities.add(helpEntity);
             } else if("pics_select_game".equalsIgnoreCase(type)) {
                 final PicsSelectGameEntity gameEntity = new PicsSelectGameEntity();
+                gameEntity.type = type;
+                
+                gameEntity.folder = object.optString("folder");
+                
+                entities.add(gameEntity);
+            } else if("drag_game".equalsIgnoreCase(type)) {
+                final DragGameEntity gameEntity = new DragGameEntity();
                 gameEntity.type = type;
                 
                 gameEntity.folder = object.optString("folder");

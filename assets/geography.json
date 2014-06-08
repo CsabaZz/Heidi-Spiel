@@ -70,6 +70,11 @@
 		"badImage":"016d18.jpg"
 	},
 	{
+		"type":"story",
+		"text1":"Gratuliere Heidi! Du hast alle Fragen richtig beantwortet. Nach dem Lernen darfst Du nun spielen. Bitte, klicke das Schweizer Wappen an!",
+		"background":"AlpOhi.jpg"
+	},
+	{
 		"type":"pics_select_game",
 		"folder":"geo"
 	}

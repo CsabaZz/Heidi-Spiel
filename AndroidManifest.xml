@@ -4,6 +4,8 @@
 	
 	<uses-sdk android:minSdkVersion="8" android:targetSdkVersion="19" />
 	
+	<uses-permission android:name="android.permission.VIBRATE"/>
+	
 	<supports-screens android:anyDensity="true" android:resizeable="false" 
 	    android:smallScreens="true" android:normalScreens="true" 
 	    android:largeScreens="false" android:xlargeScreens="false"/>

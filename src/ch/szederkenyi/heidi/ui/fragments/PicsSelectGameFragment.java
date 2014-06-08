@@ -26,8 +26,9 @@ import ch.szederkenyi.heidi.StaticContextApplication;
 import ch.szederkenyi.heidi.data.ImageLoader;
 import ch.szederkenyi.heidi.data.entities.BaseEntity;
 import ch.szederkenyi.heidi.data.entities.PicsSelectGameEntity;
-import ch.szederkenyi.heidi.messages.FirstStoryMessage;
+import ch.szederkenyi.heidi.messages.FirstQuestionMessage;
 import ch.szederkenyi.heidi.messages.MessageHandler;
+import ch.szederkenyi.heidi.messages.NextStoryMessage;
 import ch.szederkenyi.heidi.ui.AnimationViewListener;
 import ch.szederkenyi.heidi.utils.ConstantUtils;
 import ch.szederkenyi.heidi.utils.Utils;
@@ -35,6 +36,7 @@ import ch.szederkenyi.heidi.utils.Utils;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class PicsSelectGameFragment extends BaseFragment implements Callback, View.OnClickListener, AnimationListener {
     private static final String TAG = Utils.makeTag(PicsSelectGameFragment.class);
@@ -105,8 +107,10 @@ public class PicsSelectGameFragment extends BaseFragment implements Callback, Vi
                         e.printStackTrace();
                     }
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
+                
+                Collections.shuffle(mImageList);
+            } catch (IOException ex) {
+                Log.e(TAG, "Can not read the Assets folder", ex);
             }
         }
     }
@@ -171,22 +175,7 @@ public class PicsSelectGameFragment extends BaseFragment implements Callback, Vi
             
             Toast.makeText(getActivity(), "WRONG", Toast.LENGTH_SHORT).show();
             
-            final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
-            dialog.setTitle(R.string.dialogBadAnswerTitle);
-            dialog.setMessage(R.string.dialogBadAnswerText);
-            dialog.setPositiveButton(R.string.dialogBadAnswerButton, new DialogInterface.OnClickListener() {
-                
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    mResults.points = 0;
-                    mPointsText.setText(String.format(getString(R.string.picSelectPointsText), mResults.points));
-                    
-                    final AppData appdata = AppData.getInstance();
-                    final MessageHandler handler = appdata.getMessageHandler();
-                    handler.sendMessage(FirstStoryMessage.class);
-                }
-            });
-            dialog.show();
+            showFailedDialog();
         }
     }
 
@@ -197,6 +186,16 @@ public class PicsSelectGameFragment extends BaseFragment implements Callback, Vi
         }
         
         if(msg.what == ConstantUtils.MSG_ADD_IMAGE) {
+            if(mImageList.isEmpty()) {
+                if(mResults.points == 0) {
+                    showFailedDialog();
+                } else {
+                    showSuccessDialog();
+                }
+                
+                return true;
+            }
+            
             final Activity activity = getActivity();
             final LayoutInflater inflater = activity.getLayoutInflater();
             
@@ -235,6 +234,41 @@ public class PicsSelectGameFragment extends BaseFragment implements Callback, Vi
         return false;
     }
     
+    private void showSuccessDialog() {
+        final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+        dialog.setTitle(R.string.dialogPicSelectionSuccessTitle);
+        dialog.setMessage(R.string.dialogPicSelectionSuccessText);
+        dialog.setPositiveButton(R.string.dialogPicSelectionSuccessButton, new DialogInterface.OnClickListener() {
+            
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                final AppData appdata = AppData.getInstance();
+                final MessageHandler handler = appdata.getMessageHandler();
+                handler.sendMessage(NextStoryMessage.class);
+            }
+        });
+        dialog.show();
+    }
+    
+    private void showFailedDialog() {
+        final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+        dialog.setTitle(R.string.dialogBadAnswerTitle);
+        dialog.setMessage(R.string.dialogBadAnswerText);
+        dialog.setPositiveButton(R.string.dialogBadAnswerButton, new DialogInterface.OnClickListener() {
+            
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                mResults.points = 0;
+                mPointsText.setText(String.format(getString(R.string.picSelectPointsText), mResults.points));
+                
+                final AppData appdata = AppData.getInstance();
+                final MessageHandler handler = appdata.getMessageHandler();
+                handler.sendMessage(FirstQuestionMessage.class);
+            }
+        });
+        dialog.show();
+    }
+
     private int getAnimResId() {
         if(mAnimationDirection == AnimationDirection.LEFT_2_RIGHT) {
             mAnimationDirection = AnimationDirection.RIGHT_2_LEFT;
@@ -259,11 +293,6 @@ public class PicsSelectGameFragment extends BaseFragment implements Callback, Vi
         
         final AnimationViewListener animationListener = (AnimationViewListener) getAnimationListener(animation);
         final View cellView = animationListener.getView();
-        
-        final ImageButton imageButton = (ImageButton) cellView.findViewById(R.id.pics_select_game_cell_image);
-        final String imageName = (String) imageButton.getTag(R.id.imageNameTag);
-        
-        mImageList.add(imageName);
         
         final Message removeMsg = Message.obtain(mGameHandler, ConstantUtils.MSG_REMOVE_IMAGE, cellView);
         mGameHandler.sendMessage(removeMsg);

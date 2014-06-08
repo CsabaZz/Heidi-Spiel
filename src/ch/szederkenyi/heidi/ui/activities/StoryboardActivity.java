@@ -12,6 +12,8 @@ import ch.szederkenyi.heidi.R;
 import ch.szederkenyi.heidi.async.AbstractTask;
 import ch.szederkenyi.heidi.async.StoryboardTask;
 import ch.szederkenyi.heidi.data.entities.BaseEntity;
+import ch.szederkenyi.heidi.data.entities.Question;
+import ch.szederkenyi.heidi.messages.FirstQuestionMessage;
 import ch.szederkenyi.heidi.messages.FirstStoryMessage;
 import ch.szederkenyi.heidi.messages.MessageHandler;
 import ch.szederkenyi.heidi.messages.NextStoryMessage;
@@ -41,6 +43,7 @@ public class StoryboardActivity extends BaseActivity implements Callback, OnPage
     private FirstPageRunnable mFirstRunnable;
     private NextPageRunnable mNextRunnable;
     //private LastPageRunnable mLastRunnable;
+    private FirstQuestionRunnable mStartRunnable;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +63,9 @@ public class StoryboardActivity extends BaseActivity implements Callback, OnPage
         
         //mLastRunnable = new LastPageRunnable();
         //mLastRunnable.setActivity(this);
+        
+        mStartRunnable = new FirstQuestionRunnable();
+        mStartRunnable.setActivity(this);
         
         mAdapter = new StoryboardAdapter(getSupportFragmentManager());
         
@@ -86,6 +92,7 @@ public class StoryboardActivity extends BaseActivity implements Callback, OnPage
         handler.register(FirstStoryMessage.class, this, mFirstRunnable);
         handler.register(NextStoryMessage.class, this, mNextRunnable);
         //handler.register(LastStoryMessage.class, this, mLastRunnable);
+        handler.register(FirstQuestionMessage.class, this, mStartRunnable);
     }
     
     @Override
@@ -108,6 +115,7 @@ public class StoryboardActivity extends BaseActivity implements Callback, OnPage
     protected void onDestroy() {
         final AppData appdata = AppData.getInstance();
         final MessageHandler handler = appdata.getMessageHandler();
+        handler.unregister(FirstQuestionMessage.class, this);
         handler.unregister(NextStoryMessage.class, this);
         handler.unregister(FirstStoryMessage.class, this);
         
@@ -140,6 +148,11 @@ public class StoryboardActivity extends BaseActivity implements Callback, OnPage
             //mLastButton.setOnClickListener(null);
             //mLastButton = null;
         //}
+        
+        if(null != mStartRunnable) {
+            mStartRunnable.setActivity(null);
+            mStartRunnable = null;
+        }
         
         if(null != mViewPager) {
             mViewPager.setOnPageChangeListener(null);
@@ -188,6 +201,19 @@ public class StoryboardActivity extends BaseActivity implements Callback, OnPage
     
     public void showLastPage() {
         mViewPager.setCurrentItem(mAdapter.getCount() - 1, false);
+    }
+    
+    public void showFirstQuestion() {
+        int index = 0;
+        
+        for(int i = 0; i < mAdapter.getCount(); ++i) {
+            if(mAdapter.getEntity(i) instanceof Question) {
+                index = i;
+                break;
+            }
+        }
+        
+        mViewPager.setCurrentItem(index, false);
     }
     
     public void showCategories() {
@@ -261,6 +287,14 @@ public class StoryboardActivity extends BaseActivity implements Callback, OnPage
         @Override
         public void run() {
             mActivity.showLastPage();
+        }
+    }
+    
+    private static class FirstQuestionRunnable extends BaseRunnable {
+
+        @Override
+        public void run() {
+            mActivity.showFirstQuestion();
         }
     }
 

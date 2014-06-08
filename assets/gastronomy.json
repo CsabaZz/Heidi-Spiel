@@ -2,7 +2,7 @@
 	{
 		"type":"story",
 		"text1":"Tschou Heidi! Schön dich zu sehen. Damit du dich besser in der Schweiz zurechtfindest, mache ich dich mit den Schweizer Spezialitäten vertraut. Hast du Lust ein paar Fragen zu beantworten?",
-		"background":"heidigrossvater.jpg"
+		"background":"heidigrossvater_toppadding.jpg"
 	},
 	{
 		"type":"story",
@@ -68,5 +68,9 @@
 		"placeholderImage":"edelweiss.jpg",
 		"goodImage":"Antwort_richtig.jpg",
 		"badImage":"016d18.jpg"
+	},
+	{
+		"type":"drag_game",
+		"folder":"gastro"
 	}
 ]
