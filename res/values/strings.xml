@@ -1,6 +1,6 @@
 <resources>
 	<string name="app_name">Heidi</string>
-	<string name="langSelectorTitle">SELECT LANGUAGE</string>
+	<string name="langSelectorTitle">Heidis SwissTrip</string>
 	
 	<string name="langEnglish">English</string>
 	<string name="langGerman">Deutsch</string>

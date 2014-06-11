@@ -36,10 +36,10 @@
 	{
 		"type":"question",
 		"questionText":"3. Aufgabe:\nWas symbolisiert der Röstigraben?",
-		"answer1":"Die Sprachbarriere zwischen den Welschen und Deutschschweizer",
-		"answer2":"Viele verschiedene Röstiarten",
-		"answer3":"Ein Ort an dem die Rösti entstanden ist",
-		"good":"Die Sprachbarriere zwischen den Welschen und Deutschschweizer",
+		"answer1":"Sprachbarriere",
+		"answer2":"Verschiedene Röstiarten",
+		"answer3":"Einstehungsort der Rösti",
+		"good":"Sprachbarriere",
 		"questionImage":"Frage_1.jpg",
 		"placeholderImage":"edelweiss.jpg",
 		"goodImage":"Antwort_richtig.jpg",
@@ -71,7 +71,7 @@
 	},
 	{
 		"type":"story",
-		"text1":"Gratuliere Heidi! Du hast alle Fragen richtig beantwortet. Nach dem Lernen darfst Du nun spielen. Bitte, klicke das Schweizer Wappen an!",
+		"text1":"Gratuliere Heidi! Du hast alle Fragen richtig beantwortet. Nach dem Lernen darfst Du nun spielen. Bitte, klicke auf die Flagge der Lande an, die die Nachbarn der Schweiz ist!",
 		"background":"AlpOhi.jpg"
 	},
 	{

@@ -1,15 +1,21 @@
 package ch.szederkenyi.heidi.ui.fragments;
 
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import ch.szederkenyi.heidi.R;
+import ch.szederkenyi.heidi.media.ImageManager;
 
 public class LanguageSelectorFragment extends BaseFragment implements OnClickListener {
+    
+    private ImageView mImageView;
     
     private Button mEnglishButton;
     private Button mGermanButton;
@@ -18,14 +24,25 @@ public class LanguageSelectorFragment extends BaseFragment implements OnClickLis
     
     private OnLanguageSelectedListener mSelectionListener;
     
+    private MediaPlayer mBgMusic;
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View contentView = inflater.inflate(R.layout.language_selector, container, false);
+        
+        mImageView = (ImageView) contentView.findViewById(R.id.language_selector_image);
+        
+        ImageManager.loadImageFromAsset(mImageView, "heidi-im-alps.jpg");
         
         mEnglishButton = findViewById(contentView, R.id.language_selector_english, "en");
         mGermanButton = findViewById(contentView, R.id.language_selector_german, "de");
         mFrenchButton = findViewById(contentView, R.id.language_selector_french, "fr");
         mItalianButton = findViewById(contentView, R.id.language_selector_italian, "it");
+
+        mBgMusic = MediaPlayer.create(inflater.getContext(), R.raw.heidi_game_einleitung);
+        mBgMusic.setAudioStreamType(AudioManager.STREAM_SYSTEM);
+        mBgMusic.setLooping(true);
+        mBgMusic.start();
         
         return contentView;
     }
@@ -36,6 +53,14 @@ public class LanguageSelectorFragment extends BaseFragment implements OnClickLis
         mGermanButton = destroyButton(mGermanButton);
         mFrenchButton = destroyButton(mFrenchButton);
         mItalianButton = destroyButton(mItalianButton);
+        
+        mImageView = null;
+        
+        if(null != mBgMusic) {
+            mBgMusic.stop();
+            mBgMusic.release();
+            mBgMusic = null;
+        }
         
         super.onDestroyView();
     }

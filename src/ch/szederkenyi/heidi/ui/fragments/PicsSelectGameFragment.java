@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.Handler.Callback;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,9 +24,9 @@ import android.widget.Toast;
 import ch.szederkenyi.heidi.AppData;
 import ch.szederkenyi.heidi.R;
 import ch.szederkenyi.heidi.StaticContextApplication;
-import ch.szederkenyi.heidi.data.ImageLoader;
 import ch.szederkenyi.heidi.data.entities.BaseEntity;
 import ch.szederkenyi.heidi.data.entities.PicsSelectGameEntity;
+import ch.szederkenyi.heidi.media.ImageManager;
 import ch.szederkenyi.heidi.messages.FirstQuestionMessage;
 import ch.szederkenyi.heidi.messages.MessageHandler;
 import ch.szederkenyi.heidi.messages.NextStoryMessage;
@@ -42,7 +43,6 @@ public class PicsSelectGameFragment extends BaseFragment implements Callback, Vi
     private static final String TAG = Utils.makeTag(PicsSelectGameFragment.class);
     
     private static final String KEY_ENTITY_OBJECT = "PicsSelectGameFragment::EntityObject";
-    private static final String KEY_RESULTS_OBJECT = "PicsSelectGameFragment::ResultsObject";
     
     private enum AnimationDirection {
         LEFT_2_RIGHT, RIGHT_2_LEFT
@@ -77,12 +77,8 @@ public class PicsSelectGameFragment extends BaseFragment implements Callback, Vi
         
         mGameHandler = new Handler(this);
         mAnimationDirection = AnimationDirection.LEFT_2_RIGHT;
-        
-        if(null == savedInstanceState) {
-            mResults = new Results();
-        } else {
-            mResults = (Results) savedInstanceState.getSerializable(KEY_RESULTS_OBJECT);
-        }
+
+        mResults = new Results();
         
         final Bundle args = getArguments();
         if(null != args) {
@@ -146,12 +142,6 @@ public class PicsSelectGameFragment extends BaseFragment implements Callback, Vi
     }
     
     @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putSerializable(KEY_RESULTS_OBJECT, mResults);
-    }
-    
-    @Override
     public String getStackName() {
         if(null == mGameObject) {
             return null;
@@ -166,10 +156,24 @@ public class PicsSelectGameFragment extends BaseFragment implements Callback, Vi
         final String imageName = (String) imageButton.getTag(R.id.imageNameTag);
         
         if(imageName.contains("/right/")) {
+            imageButton.setTag(R.id.imageNameTag, null);
+            
             Toast.makeText(getActivity(), "RIGHT", Toast.LENGTH_SHORT).show();
             
             mResults.points += 1;
             mPointsText.setText(String.format(getString(R.string.picSelectPointsText), mResults.points));
+
+            int i = 0;
+            int size = mImageList.size();
+            for (; i < size; i++) {
+                if (mImageList.get(i).contains("/right/")) {
+                    break;
+                }
+            }
+            
+            if(i == size) {
+                showSuccessDialog();
+            }
         } else {
             mResults.finished = true;
             
@@ -186,16 +190,6 @@ public class PicsSelectGameFragment extends BaseFragment implements Callback, Vi
         }
         
         if(msg.what == ConstantUtils.MSG_ADD_IMAGE) {
-            if(mImageList.isEmpty()) {
-                if(mResults.points == 0) {
-                    showFailedDialog();
-                } else {
-                    showSuccessDialog();
-                }
-                
-                return true;
-            }
-            
             final Activity activity = getActivity();
             final LayoutInflater inflater = activity.getLayoutInflater();
             
@@ -216,7 +210,7 @@ public class PicsSelectGameFragment extends BaseFragment implements Callback, Vi
             imageButton.setOnClickListener(this);
             imageButton.setTag(R.id.imageNameTag, imagename);
             
-            ImageLoader.loadImageFromAsset(imageButton, imagename);
+            ImageManager.loadImageFromAsset(imageButton, imagename);
             
             imageButton.startAnimation(animation);
             
@@ -293,6 +287,13 @@ public class PicsSelectGameFragment extends BaseFragment implements Callback, Vi
         
         final AnimationViewListener animationListener = (AnimationViewListener) getAnimationListener(animation);
         final View cellView = animationListener.getView();
+        
+        final ImageButton imageButton = (ImageButton) cellView.findViewById(R.id.pics_select_game_cell_image);
+        final String imageName = (String) imageButton.getTag(R.id.imageNameTag);
+
+        if(!TextUtils.isEmpty(imageName)) {
+            mImageList.add(imageName);
+        }
         
         final Message removeMsg = Message.obtain(mGameHandler, ConstantUtils.MSG_REMOVE_IMAGE, cellView);
         mGameHandler.sendMessage(removeMsg);

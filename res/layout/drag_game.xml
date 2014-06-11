@@ -20,14 +20,10 @@
 	<ImageView android:id="@+id/drag_game_conveying" android:background="@drawable/conveying_bitmap" 
 	    android:layout_width="match_parent" android:layout_height="wrap_content" 
 	    android:layout_above="@+id/drag_game_result_cradle"/>
-	<ch.szederkenyi.heidi.ui.views.dragview.DropImage android:id="@+id/drag_game_pan" 
+	<ImageView android:id="@+id/drag_game_pan" android:src="@drawable/pan" 
 	    android:layout_width="100dp" android:layout_height="75dp" 
-	    android:layout_above="@+id/drag_game_result_cradle" android:layout_centerHorizontal="true" 
-	    android:scaleType="fitCenter" android:src="@drawable/pan"/>
-	<ch.szederkenyi.heidi.ui.views.dragview.DragLayer android:id="@+id/drag_game_zutaten_layout" 
+	    android:layout_above="@+id/drag_game_result_cradle" android:layout_centerHorizontal="true"/>
+	<LinearLayout android:id="@+id/drag_game_zutaten_layout" android:orientation="horizontal" 
 	    android:layout_width="match_parent" android:layout_height="50dp" 
-	    android:layout_above="@+id/drag_game_conveying">
-		<ImageView android:id="@+id/drag_game_zutaten" 
-		    android:layout_width="100dp" android:layout_height="50dp"/>
-	</ch.szederkenyi.heidi.ui.views.dragview.DragLayer>
+	    android:layout_above="@+id/drag_game_conveying"/>
 </RelativeLayout>

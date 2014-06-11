@@ -1,4 +1,4 @@
-package ch.szederkenyi.heidi.data;
+package ch.szederkenyi.heidi.media;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -20,8 +20,8 @@ import ch.szederkenyi.heidi.utils.Utils;
 
 import java.io.IOException;
 
-public class ImageLoader {
-    private static final String TAG = Utils.makeTag(ImageLoader.class);
+public class ImageManager {
+    private static final String TAG = Utils.makeTag(ImageManager.class);
     
     private static int findOptimalSampleSize(BitmapFactory.Options options, float reqWidth, float reqHeight) {
         final float height = options.outHeight;
@@ -68,7 +68,7 @@ public class ImageLoader {
             
             BitmapFactory.decodeStream(manager.open(imagename), null, opts);
             opts.inJustDecodeBounds = false;
-            opts.inSampleSize = ImageLoader.findOptimalSampleSize(opts, imageview.getWidth(), imageview.getHeight());
+            opts.inSampleSize = ImageManager.findOptimalSampleSize(opts, imageview.getWidth(), imageview.getHeight());
             
             final Bitmap bitmap = BitmapFactory.decodeStream(manager.open(imagename), null, opts);
             final BitmapDrawable drawable = new BitmapDrawable(context.getResources(), bitmap);

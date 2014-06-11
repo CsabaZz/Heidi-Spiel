@@ -10,8 +10,8 @@ import android.widget.TextView;
 
 import ch.szederkenyi.heidi.AppData;
 import ch.szederkenyi.heidi.R;
-import ch.szederkenyi.heidi.data.ImageLoader;
 import ch.szederkenyi.heidi.data.entities.Ready;
+import ch.szederkenyi.heidi.media.ImageManager;
 import ch.szederkenyi.heidi.messages.MessageHandler;
 import ch.szederkenyi.heidi.messages.NextStoryMessage;
 
@@ -52,7 +52,7 @@ public class ReadyFragment extends BaseFragment implements OnClickListener {
         mTextView.setText(mReadyObject.text);
 
         mImageView = (ImageView) contentView.findViewById(R.id.ready_image);
-        ImageLoader.loadImageFromAsset(mImageView, mReadyObject.image);
+        ImageManager.loadImageFromAsset(mImageView, mReadyObject.image);
         
         return contentView;
     }

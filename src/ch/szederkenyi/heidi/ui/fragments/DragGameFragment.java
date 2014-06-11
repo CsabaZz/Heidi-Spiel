@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.res.AssetManager;
+import android.graphics.Matrix;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Handler.Callback;
@@ -11,13 +12,12 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
+import android.view.animation.Transformation;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,19 +25,13 @@ import android.widget.Toast;
 import ch.szederkenyi.heidi.AppData;
 import ch.szederkenyi.heidi.R;
 import ch.szederkenyi.heidi.StaticContextApplication;
-import ch.szederkenyi.heidi.data.ImageLoader;
 import ch.szederkenyi.heidi.data.entities.BaseEntity;
 import ch.szederkenyi.heidi.data.entities.DragGameEntity;
+import ch.szederkenyi.heidi.media.ImageManager;
 import ch.szederkenyi.heidi.messages.FirstQuestionMessage;
 import ch.szederkenyi.heidi.messages.MessageHandler;
 import ch.szederkenyi.heidi.messages.NextStoryMessage;
 import ch.szederkenyi.heidi.ui.AnimationViewListener;
-import ch.szederkenyi.heidi.ui.views.dragview.DragController;
-import ch.szederkenyi.heidi.ui.views.dragview.DragController.DragListener;
-import ch.szederkenyi.heidi.ui.views.dragview.DragLayer;
-import ch.szederkenyi.heidi.ui.views.dragview.DropImage;
-import ch.szederkenyi.heidi.ui.views.dragview.DropImage.OnViewDropListener;
-import ch.szederkenyi.heidi.ui.views.dragview.IDragSource;
 import ch.szederkenyi.heidi.utils.ConstantUtils;
 import ch.szederkenyi.heidi.utils.Utils;
 
@@ -46,29 +40,20 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class DragGameFragment extends BaseFragment implements Callback, AnimationListener, OnViewDropListener {
+public class DragGameFragment extends BaseFragment {
     private static final String TAG = Utils.makeTag(DragGameFragment.class);
     
     private static final String KEY_ENTITY_OBJECT = "DragGameFragment::EntityObject";
-    private static final String KEY_RESULTS_OBJECT = "DragGameFragment::ResultsObject";
 
-    private DragController mDragController;
-    
-    private DragLayer mZutatenLayer;
-    private DropImage mPanImage;
-    private ImageView mZutatenImage;
+    private ViewGroup mZutatenLayer;
+    private ImageView mPanImage;
     
     private TextView mPointsText;
-    
-    private DragTouchListener mDragTouchListener;
-    private DragListenerForStateSaving mDragListenerForStateSaving;
     
     private DragGameEntity mGameObject;
     private Results mResults;
     
-    private Handler mGameHandler;
-    
-    private ArrayList<String> mImageList;
+    private IngredientHandler mIngredientHandler;
 
     public static Fragment instantiate(DragGameEntity gameObject) {
         final Bundle args = new Bundle();
@@ -83,22 +68,14 @@ public class DragGameFragment extends BaseFragment implements Callback, Animatio
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mGameHandler = new Handler(this);
-        
-        mDragTouchListener = new DragTouchListener();
-        mDragListenerForStateSaving = new DragListenerForStateSaving();
-        
-        if(null == savedInstanceState) {
-            mResults = new Results();
-        } else {
-            mResults = (Results) savedInstanceState.getSerializable(KEY_RESULTS_OBJECT);
-        }
+
+        mResults = new Results();
         
         final Bundle args = getArguments();
         if(null != args) {
             mGameObject = (DragGameEntity) args.getSerializable(KEY_ENTITY_OBJECT);
             
-            mImageList = new ArrayList<String>();
+            mIngredientHandler = new IngredientHandler();
             
             final Activity activity = StaticContextApplication.getCurrentActivity();
             final AssetManager manager = activity.getAssets();
@@ -111,14 +88,14 @@ public class DragGameFragment extends BaseFragment implements Callback, Animatio
                     try {
                         final String[] files = manager.list(subfolder);
                         for(String file : files) {
-                            mImageList.add(subfolder + "/" + file);
+                            mIngredientHandler.addIngredient(subfolder + "/" + file);
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
                 
-                Collections.shuffle(mImageList);
+                mIngredientHandler.shuffle();
             } catch (IOException ex) {
                 Log.e(TAG, "Can not read the Assets folder", ex);
             }
@@ -129,50 +106,21 @@ public class DragGameFragment extends BaseFragment implements Callback, Animatio
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View contentView = inflater.inflate(R.layout.drag_game, container, false);
         
-        mDragController = new DragController(inflater.getContext());
-        mDragController.setDragListener(mDragListenerForStateSaving);
-        
-        mZutatenLayer = (DragLayer) contentView.findViewById(R.id.drag_game_zutaten_layout);
-        mPanImage = (DropImage) contentView.findViewById(R.id.drag_game_pan);
-        mZutatenImage = (ImageView) contentView.findViewById(R.id.drag_game_zutaten);
+        mZutatenLayer = (ViewGroup) contentView.findViewById(R.id.drag_game_zutaten_layout);
+        mPanImage = (ImageView) contentView.findViewById(R.id.drag_game_pan);
         
         mPointsText = (TextView) contentView.findViewById(R.id.drag_game_points_text);
         
         mPointsText.setText(String.format(getString(R.string.picSelectPointsText), mResults.points));
         
-        mZutatenLayer.setDragController(mDragController);
-        mDragController.addDropTarget(mZutatenLayer);
-        
-        mPanImage.setDragController(mDragController);
-        mPanImage.setOnViewDropListener(this);
-        
-        mZutatenImage.setOnTouchListener(mDragTouchListener);
-        
         return contentView;
-    }
-    
-    @Override
-    public void onDestroyView() {
-        if(null != mDragController) {
-            mDragController.removeDropTarget(mZutatenLayer);
-            mDragController.removeDragListener(mDragListenerForStateSaving);
-        }
-        
-        super.onDestroyView();
     }
     
     @Override
     public void onStart() {
         super.onStart();
         
-        final Message removeMsg = Message.obtain(mGameHandler, ConstantUtils.MSG_ADD_IMAGE);
-        mGameHandler.sendMessage(removeMsg);
-    }
-    
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putSerializable(KEY_RESULTS_OBJECT, mResults);
+        mIngredientHandler.start();
     }
     
     @Override
@@ -182,52 +130,6 @@ public class DragGameFragment extends BaseFragment implements Callback, Animatio
         } else {
             return super.getStackName() + "://" + mGameObject.id;
         }
-    }
-
-    @Override
-    public boolean handleMessage(Message msg) {
-        if(null == mDragController) {
-            return false;
-        }
-        
-        if(msg.what == ConstantUtils.MSG_ADD_IMAGE) {
-            if(mImageList.isEmpty()) {
-                if(mResults.points == 0) {
-                    showFailedDialog();
-                } else {
-                    showSuccessDialog();
-                }
-                
-                return true;
-            }
-            
-            final AnimationViewListener animationListener = new AnimationViewListener(this);
-            animationListener.setView(mZutatenImage);
-            
-            final Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.push_right_to_left);
-            animation.setAnimationListener(animationListener);
-            animation.setDuration(12000);
-            animation.setFillBefore(true);
-            animation.setFillAfter(true);
-            
-            final String imagename = mImageList.get(0);
-            mImageList.remove(0);
-            
-            mZutatenImage.setTag(R.id.imageNameTag, imagename);
-            
-            ImageLoader.loadImageFromAsset(mZutatenImage, imagename);
-            
-            mZutatenImage.startAnimation(animation);
-            
-            return true;
-        } else if(msg.what == ConstantUtils.MSG_REMOVE_IMAGE) {
-            final Message removeMsg = Message.obtain(mGameHandler, ConstantUtils.MSG_ADD_IMAGE);
-            mGameHandler.sendMessage(removeMsg);
-            
-            return true;
-        }
-        
-        return false;
     }
     
     private void showSuccessDialog() {
@@ -264,100 +166,272 @@ public class DragGameFragment extends BaseFragment implements Callback, Animatio
         });
         dialog.show();
     }
-
-    @Override
-    public void onViewDrop(View view) {
-        final String imageName = (String) view.getTag(R.id.imageNameTag);
+    
+    private class IngredientHandler {
+        private ArrayList<Ingredient> mIngredientList;
         
-        if(imageName.contains("/right/")) {
-            Toast.makeText(getActivity(), "RIGHT", Toast.LENGTH_SHORT).show();
-            
-            mResults.points += 1;
-            mPointsText.setText(String.format(getString(R.string.picSelectPointsText), mResults.points));
-        } else {
-            mResults.finished = true;
-            
-            Toast.makeText(getActivity(), "WRONG", Toast.LENGTH_SHORT).show();
-            
-            showFailedDialog();
+        public IngredientHandler() {
+            mIngredientList = new ArrayList<Ingredient>();
         }
-    }
 
-    @Override
-    public void onAnimationStart(Animation animation) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void onAnimationEnd(Animation animation) {
-        if(mResults.finished) {
-            return;
+        public void addIngredient(String file) {
+            mIngredientList.add(new Ingredient(file));
         }
         
-        final AnimationViewListener animationListener = (AnimationViewListener) getAnimationListener(animation);
-        final View cellView = animationListener.getView();
-        
-        final Message removeMsg = Message.obtain(mGameHandler, ConstantUtils.MSG_REMOVE_IMAGE, cellView);
-        mGameHandler.sendMessage(removeMsg);
-    }
+        public void shuffle() {
+            Collections.shuffle(mIngredientList);
+        }
 
-    @Override
-    public void onAnimationRepeat(Animation animation) {
-        // TODO Auto-generated method stub
-        
+        public void start() {
+            int size = mIngredientList.size();
+            for(int i = 0; i < size; ++i) {
+                final Ingredient entity = mIngredientList.get(i);
+                entity.inflate(mZutatenLayer);
+                entity.start(i);
+            }
+        }
     }
     
-    private Animation.AnimationListener getAnimationListener(Animation animation) {
-        try {
-            Field mListenerField = Animation.class
-                    .getDeclaredField("mListener");
-            if (null != mListenerField) {
-                mListenerField.setAccessible(true);
-                return (Animation.AnimationListener) mListenerField.get(animation);
-            }
-        } catch (NoSuchFieldException ex) {
-            Log.e(TAG, "Can not find such field: mListener", ex);
-        } catch (IllegalAccessException ex) {
-            Log.e(TAG, "Can not access to field: mListener", ex);
-        } catch (IllegalArgumentException ex) {
-            Log.e(TAG, "Something goes wrong with mListener", ex);
+    private class Ingredient implements Callback, View.OnClickListener {
+        private final String mFile;
+        
+        private Handler mGameHandler;
+        
+        private int mIndex;
+        
+        private ViewGroup mParentLayout;
+        private View mCellView;
+        
+        private ScrollAnimationListener mScrollAnimationListener;
+        private SelectAnimationListener mSelectAnimationListener;
+        
+        public Ingredient(String file) {
+            mFile = file;
+            
+            mGameHandler = new Handler(this);
+            
+            mScrollAnimationListener = new ScrollAnimationListener();
+            mSelectAnimationListener = new SelectAnimationListener();
+        }
+
+        public void inflate(ViewGroup parentLayout) {
+            mParentLayout = parentLayout;
+            
+            final Activity activity = (Activity) mParentLayout.getContext();
+            final LayoutInflater inflater = activity.getLayoutInflater();
+            
+            mCellView = inflater.inflate(R.layout.drag_game_item, mParentLayout, false);
+
+            final ImageView zutatenView = (ImageView) mCellView.findViewById(R.id.drag_game_item_zutaten);
+            zutatenView.setOnClickListener(this);
+            ImageManager.loadImageFromAsset(zutatenView, mFile);
         }
         
-        return null;
-    }
-
-    private class DragTouchListener implements OnTouchListener {
+        private boolean first;
+        
+        public void start(int index) {
+            mIndex = index;
+            
+            first = true;
+            sendAddMessage();
+            first = false;
+        }
+        
+        private void sendAddMessage() {
+            int additional = first ? 0 : (mIngredientHandler.mIngredientList.size() - 1) * 12000;
+            
+            final Message addMsg = Message.obtain(mGameHandler, ConstantUtils.MSG_ADD_IMAGE);
+            mGameHandler.sendMessageDelayed(addMsg, (mIndex * 12000) + additional);
+        }
+        
+        private void sendRemoveMessage() {
+            final Message removeMsg = Message.obtain(mGameHandler, ConstantUtils.MSG_REMOVE_IMAGE);
+            mGameHandler.sendMessage(removeMsg);
+        }
 
         @Override
-        public boolean onTouch(View v, MotionEvent event) {
-            if (!v.isInTouchMode() 
-                    || event.getAction() != MotionEvent.ACTION_DOWN) {
+        public boolean handleMessage(Message msg) {
+            if(null == getActivity()) {
                 return false;
-            } else {
-                v.getAnimation().setAnimationListener(null);
-                v.clearAnimation();
+            }
+            
+            if(msg.what == ConstantUtils.MSG_ADD_IMAGE) {
+                if(mResults.finished) {
+                    return true;
+                }
                 
-                Object dragInfo = v;
-                mDragController.startDrag(v, mZutatenLayer, dragInfo,
-                        DragController.DRAG_ACTION_MOVE);
+                final AnimationViewListener animationListener = new AnimationViewListener(mScrollAnimationListener);
+                animationListener.setView(mCellView);
+                
+                final Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.push_right_to_left);
+                animation.setAnimationListener(animationListener);
+                animation.setDuration(12000);
+                animation.setFillBefore(true);
+                animation.setFillAfter(true);
+                
+                mParentLayout.addView(mCellView);
+                mCellView.startAnimation(animation);
+                
+                return true;
+            } else if(msg.what == ConstantUtils.MSG_REMOVE_IMAGE) {
+                mParentLayout.removeView(mCellView);
+                
+                sendAddMessage();
+                
                 return true;
             }
+            
+            return false;
         }
-    }
-    
-    private class DragListenerForStateSaving implements DragListener {
-
+        
         @Override
-        public void onDragStart(IDragSource source, Object info, int dragAction) {
-            // Unused auto-generated method stub
+        public void onClick(View v) {
+            final View parentView = (View)v.getParent();
+            final Animation anim = parentView.getAnimation();
+            anim.setAnimationListener(null);
+            
+            parentView.clearAnimation();
+            
+            final Transformation transformation = getTransformation(anim);
+            final float[] currentTransl = getTransformationTranslate(transformation);
+            
+            final int[] locationOfV = getPositionOfView(parentView);
+            final int[] locationOfPan = getPositionOfView(mPanImage);
+            
+            final AnimationViewListener animationListener = new AnimationViewListener(mSelectAnimationListener);
+            animationListener.setView(parentView);
+            
+            final TranslateAnimation translate = new TranslateAnimation(
+                    currentTransl[0], locationOfPan[0] - locationOfV[0], 
+                    currentTransl[1], locationOfPan[1] - locationOfV[1]);
+            translate.setAnimationListener(animationListener);
+            translate.setDuration(300);
+            translate.setFillBefore(true);
+            translate.setFillAfter(true);
+            
+            parentView.startAnimation(translate);
         }
+        
+        private Animation.AnimationListener getAnimationListener(Animation animation) {
+            try {
+                Field mListenerField = Animation.class
+                        .getDeclaredField("mListener");
+                if (null != mListenerField) {
+                    mListenerField.setAccessible(true);
+                    return (Animation.AnimationListener) mListenerField.get(animation);
+                }
+            } catch (NoSuchFieldException ex) {
+                Log.e(TAG, "Can not find such field: mListener", ex);
+            } catch (IllegalAccessException ex) {
+                Log.e(TAG, "Can not access to field: mListener", ex);
+            } catch (IllegalArgumentException ex) {
+                Log.e(TAG, "Something goes wrong with mListener", ex);
+            }
+            
+            return null;
+        }
+        
+        private Transformation getTransformation(Animation animation) {
+            
+            try {
+                Field mListenerField = Animation.class
+                        .getDeclaredField("mTransformation");
+                if (null != mListenerField) {
+                    mListenerField.setAccessible(true);
+                    return (Transformation) mListenerField.get(animation);
+                }
+            } catch (NoSuchFieldException ex) {
+                Log.e(TAG, "Can not find such field: mTransformation", ex);
+            } catch (IllegalAccessException ex) {
+                Log.e(TAG, "Can not access to field: mTransformation", ex);
+            } catch (IllegalArgumentException ex) {
+                Log.e(TAG, "Something goes wrong with mTransformation", ex);
+            }
+            
+            return new Transformation();
+        }
+        
+        private float[] getTransformationTranslate(Transformation transformation) {
+            final Matrix transformationMatrix = transformation.getMatrix();
+            
+            final float[] matrixValues = new float[9];
+            transformationMatrix.getValues(matrixValues);
+            
+            return new float[] { matrixValues[Matrix.MTRANS_X], matrixValues[Matrix.MTRANS_Y] };
+        }
+        
+        private int[] getPositionOfView(View v) {
+            final int[] positions = new int[2];
+            v.getLocationOnScreen(positions);
+            return positions;
+        }
+        
+        private class ScrollAnimationListener implements Animation.AnimationListener {
 
-        @Override
-        public void onDragEnd(IDragSource source, Object info) {
-            //final View v = (View) info;
-            final Message removeMsg = Message.obtain(mGameHandler, ConstantUtils.MSG_ADD_IMAGE);
-            mGameHandler.sendMessage(removeMsg);
+            @Override
+            public void onAnimationStart(Animation animation) { }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) { }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                if(mResults.finished) {
+                    return;
+                }
+                
+                sendRemoveMessage();
+            }
+        }
+        
+        private class SelectAnimationListener implements Animation.AnimationListener {
+
+            @Override
+            public void onAnimationStart(Animation animation) { }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) { }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                if(mResults.finished) {
+                    return;
+                }
+                
+                final AnimationViewListener animationListener = (AnimationViewListener) getAnimationListener(animation);
+                final View cellView = animationListener.getView();
+                
+                final String imageName = mFile;
+                
+                if(imageName.contains("/right/")) {
+                    Toast.makeText(getActivity(), "RIGHT", Toast.LENGTH_SHORT).show();
+                    
+                    mResults.points += 1;
+                    mPointsText.setText(String.format(getString(R.string.picSelectPointsText), mResults.points));
+
+                    int count = 0;
+                    int size = mIngredientHandler.mIngredientList.size();
+                    for (int i = 0; i < size; i++) {
+                        if (mIngredientHandler.mIngredientList.get(i).mFile.contains("/right/")) {
+                            count += 1;
+                        }
+                    }
+                    
+                    if(mResults.points == count) {
+                        mResults.finished = true;
+                        showSuccessDialog();
+                    }
+                } else {
+                    mResults.finished = true;
+                    
+                    Toast.makeText(getActivity(), "WRONG", Toast.LENGTH_SHORT).show();
+                    
+                    showFailedDialog();
+                }
+                
+                final Message removeMsg = Message.obtain(mGameHandler, ConstantUtils.MSG_REMOVE_IMAGE, cellView);
+                mGameHandler.sendMessage(removeMsg);
+            }
         }
     }
     

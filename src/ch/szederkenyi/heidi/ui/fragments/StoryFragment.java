@@ -10,8 +10,8 @@ import android.widget.TextView;
 
 import ch.szederkenyi.heidi.AppData;
 import ch.szederkenyi.heidi.R;
-import ch.szederkenyi.heidi.data.ImageLoader;
 import ch.szederkenyi.heidi.data.entities.Story;
+import ch.szederkenyi.heidi.media.ImageManager;
 import ch.szederkenyi.heidi.messages.MessageHandler;
 import ch.szederkenyi.heidi.messages.NextStoryMessage;
 
@@ -53,7 +53,7 @@ public class StoryFragment extends BaseFragment implements OnClickListener {
         mBubbleText = (TextView) contentView.findViewById(R.id.story_bubble);
         mBubbleText.setText(mStoryObject.text);
         
-        ImageLoader.loadImageFromAsset(mImageView, mStoryObject.background);
+        ImageManager.loadImageFromAsset(mImageView, mStoryObject.background);
         
         return contentView;
     }

@@ -10,8 +10,8 @@ import android.widget.TextView;
 
 import ch.szederkenyi.heidi.AppData;
 import ch.szederkenyi.heidi.R;
-import ch.szederkenyi.heidi.data.ImageLoader;
 import ch.szederkenyi.heidi.data.entities.Help;
+import ch.szederkenyi.heidi.media.ImageManager;
 import ch.szederkenyi.heidi.messages.MessageHandler;
 import ch.szederkenyi.heidi.messages.NextStoryMessage;
 import ch.szederkenyi.heidi.ui.views.LockableScrollView;
@@ -62,7 +62,7 @@ public class HelpFragment extends BaseFragment implements OnClickListener {
         mText2View.setText(mHelpObject.text2);
 
         mImageView = (ImageView) contentView.findViewById(R.id.help_image);
-        ImageLoader.loadImageFromAsset(mImageView, mHelpObject.background);
+        ImageManager.loadImageFromAsset(mImageView, mHelpObject.background);
         
         mText1View.setVisibility(View.VISIBLE);
         mText2View.setVisibility(View.GONE);

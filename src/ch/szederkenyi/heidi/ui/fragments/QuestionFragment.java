@@ -17,8 +17,8 @@ import android.widget.ToggleButton;
 
 import ch.szederkenyi.heidi.AppData;
 import ch.szederkenyi.heidi.R;
-import ch.szederkenyi.heidi.data.ImageLoader;
 import ch.szederkenyi.heidi.data.entities.Question;
+import ch.szederkenyi.heidi.media.ImageManager;
 import ch.szederkenyi.heidi.messages.FirstQuestionMessage;
 import ch.szederkenyi.heidi.messages.MessageHandler;
 import ch.szederkenyi.heidi.messages.NextStoryMessage;
@@ -81,8 +81,8 @@ public class QuestionFragment extends BaseFragment implements OnClickListener, I
         mQuestionText.setText(mQuestionObject.questionText);
         mQuestionImage.setCornerRadius(Utils.getDip(10f));
         
-        ImageLoader.loadImageFromAsset(mSpaceHolderImage, mQuestionObject.placeholder);
-        ImageLoader.loadImageFromAsset(mQuestionImage, mQuestionObject.questionImage);
+        ImageManager.loadImageFromAsset(mSpaceHolderImage, mQuestionObject.placeholder);
+        ImageManager.loadImageFromAsset(mQuestionImage, mQuestionObject.questionImage);
         
         initializeButton(mAnswer1Button, mQuestionObject.answer1);
         initializeButton(mAnswer2Button, mQuestionObject.answer2);
@@ -98,7 +98,7 @@ public class QuestionFragment extends BaseFragment implements OnClickListener, I
         button.setTag(answer);
         
         if(answer.endsWith(".jpg")) {
-            final CharSequence str = ImageLoader.loadImageFromAsset(answer, Utils.getDip(60));
+            final CharSequence str = ImageManager.loadImageFromAsset(answer, Utils.getDip(60));
             button.setTextOn(str);
             button.setTextOff(str);
             button.setText(str);
@@ -183,14 +183,14 @@ public class QuestionFragment extends BaseFragment implements OnClickListener, I
         final Handler handler = new Handler(callback);
         
         if(mQuestionObject.goodAnswer.equalsIgnoreCase(answer)) {
-            ImageLoader.loadImageFromAsset(mQuestionImage, mQuestionObject.goodImage);
+            ImageManager.loadImageFromAsset(mQuestionImage, mQuestionObject.goodImage);
             
             mResultText.setTextColor(Color.GREEN);
             mResultText.setText(R.string.resultRightText);
             
             handler.sendEmptyMessageDelayed(ConstantUtils.MSG_GOOD_ANSER, ConstantUtils.DELAY_GOOD_ANSWER);
         } else {
-            ImageLoader.loadImageFromAsset(mQuestionImage, mQuestionObject.badImage);
+            ImageManager.loadImageFromAsset(mQuestionImage, mQuestionObject.badImage);
             
             mResultText.setTextColor(Color.RED);
             mResultText.setText(R.string.resultWrongText);
