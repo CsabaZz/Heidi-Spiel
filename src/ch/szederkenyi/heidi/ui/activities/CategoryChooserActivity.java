@@ -18,6 +18,7 @@ import ch.szederkenyi.heidi.StaticContextApplication;
 import ch.szederkenyi.heidi.async.AbstractTask;
 import ch.szederkenyi.heidi.async.CategoryTask;
 import ch.szederkenyi.heidi.data.entities.Category;
+import ch.szederkenyi.heidi.data.storage.StorageManager;
 import ch.szederkenyi.heidi.utils.ConstantUtils;
 
 import java.util.Collection;
@@ -96,7 +97,7 @@ public class CategoryChooserActivity extends BaseActivity implements Callback, V
         final Category category = (Category) mAdapter.getItem(position);
         final String dataFile = category.datafile;
         
-        finish();
+        //finish();
         
         final Intent storyIntent = new Intent(this, StoryboardActivity.class);
         storyIntent.putExtra(StoryboardActivity.EXTRA_DATAFILE, dataFile);
@@ -143,6 +144,9 @@ public class CategoryChooserActivity extends BaseActivity implements Callback, V
             button.setOnClickListener(mClickListener);
             button.setText(category.title);
             button.setTag(Integer.valueOf(position));
+            
+            final boolean isComplete = StorageManager.isCategoryCompleted(category.datafile);
+            button.setCompoundDrawablesWithIntrinsicBounds(isComplete ? R.drawable.icon_right_answer : 0, 0, isComplete ? R.drawable.icon_right_answer : 0, 0);
             
             return convertView;
         }

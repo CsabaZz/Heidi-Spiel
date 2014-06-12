@@ -13,6 +13,7 @@ import ch.szederkenyi.heidi.async.AbstractTask;
 import ch.szederkenyi.heidi.async.StoryboardTask;
 import ch.szederkenyi.heidi.data.entities.BaseEntity;
 import ch.szederkenyi.heidi.data.entities.Question;
+import ch.szederkenyi.heidi.data.storage.StorageManager;
 import ch.szederkenyi.heidi.messages.FirstQuestionMessage;
 import ch.szederkenyi.heidi.messages.FirstStoryMessage;
 import ch.szederkenyi.heidi.messages.MessageHandler;
@@ -24,6 +25,8 @@ import ch.szederkenyi.heidi.utils.ConstantUtils;
 import java.util.Collection;
 
 public class StoryboardActivity extends BaseActivity implements Callback, OnPageChangeListener {
+    
+    public static final String RETRYABLE_CATEGORY = "sights.json";
     
     public static final String EXTRA_DATAFILE = "StoryboardActivity::Datafile";
     
@@ -204,16 +207,27 @@ public class StoryboardActivity extends BaseActivity implements Callback, OnPage
     }
     
     public void showFirstQuestion() {
-        int index = 0;
-        
-        for(int i = 0; i < mAdapter.getCount(); ++i) {
-            if(mAdapter.getEntity(i) instanceof Question) {
-                index = i;
-                break;
+        //TODO remove me!!!
+        if(!RETRYABLE_CATEGORY.equalsIgnoreCase(getIntent().getStringExtra(EXTRA_DATAFILE))) {
+            int index = 0;
+            
+            for(int i = 0; i < mAdapter.getCount(); ++i) {
+                if(mAdapter.getEntity(i) instanceof Question) {
+                    index = i;
+                    break;
+                }
             }
+            
+            mViewPager.setCurrentItem(index, false);
+        } else {
+            showNextPage();
         }
+    }
+    
+    public void complete() {
+        StorageManager.completeCategory(getIntent().getStringExtra(EXTRA_DATAFILE));
         
-        mViewPager.setCurrentItem(index, false);
+        showCategories();
     }
     
     public void showCategories() {
@@ -222,16 +236,10 @@ public class StoryboardActivity extends BaseActivity implements Callback, OnPage
     }
 
     @Override
-    public void onPageScrollStateChanged(int arg0) {
-        // TODO Auto-generated method stub
-        
-    }
+    public void onPageScrollStateChanged(int arg0) { }
 
     @Override
-    public void onPageScrolled(int arg0, float arg1, int arg2) {
-        // TODO Auto-generated method stub
-        
-    }
+    public void onPageScrolled(int arg0, float arg1, int arg2) { }
 
     @Override
     public void onPageSelected(int position) {
@@ -275,7 +283,7 @@ public class StoryboardActivity extends BaseActivity implements Callback, OnPage
         @Override
         public void run() {
             if(mActivity.isLastPage()) {
-                mActivity.showCategories();
+                mActivity.complete();
             } else {
                 mActivity.showNextPage();
             }

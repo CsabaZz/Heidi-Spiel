@@ -23,6 +23,7 @@ import ch.szederkenyi.heidi.messages.FirstQuestionMessage;
 import ch.szederkenyi.heidi.messages.MessageHandler;
 import ch.szederkenyi.heidi.messages.NextStoryMessage;
 import ch.szederkenyi.heidi.ui.IResetable;
+import ch.szederkenyi.heidi.ui.activities.StoryboardActivity;
 import ch.szederkenyi.heidi.ui.views.RoundedImageView;
 import ch.szederkenyi.heidi.utils.ConstantUtils;
 import ch.szederkenyi.heidi.utils.Utils;
@@ -199,20 +200,26 @@ public class QuestionFragment extends BaseFragment implements OnClickListener, I
             mAnswer2Button.setChecked(true);
             mAnswer3Button.setChecked(true);
             
-            final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
-            dialog.setTitle(R.string.dialogBadAnswerTitle);
-            dialog.setMessage(R.string.dialogBadAnswerText);
-            dialog.setPositiveButton(R.string.dialogBadAnswerButton, new DialogInterface.OnClickListener() {
+            //TODO remove me!!!
+            final StoryboardActivity activity = (StoryboardActivity) getActivity();
+            if(!StoryboardActivity.RETRYABLE_CATEGORY.equalsIgnoreCase(activity.getIntent().getStringExtra(StoryboardActivity.EXTRA_DATAFILE))) {
+                final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+                dialog.setTitle(R.string.dialogBadAnswerTitle);
+                dialog.setMessage(R.string.dialogBadAnswerText);
+                dialog.setPositiveButton(R.string.dialogBadAnswerButton, new DialogInterface.OnClickListener() {
+                    
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        handler.sendEmptyMessage(ConstantUtils.MSG_BAD_ANSWER);
+                    }
+                });
                 
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    handler.sendEmptyMessage(ConstantUtils.MSG_BAD_ANSWER);
-                }
-            });
-            
-            final AlertDialog d = dialog.create();
-            d.getWindow().setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL);
-            d.show();
+                final AlertDialog d = dialog.create();
+                d.getWindow().setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL);
+                d.show();
+            } else {
+                handler.sendEmptyMessageDelayed(ConstantUtils.MSG_BAD_ANSWER, ConstantUtils.DELAY_BAD_ANSWER);
+            }
         }
         
         mResultText.setVisibility(View.VISIBLE);

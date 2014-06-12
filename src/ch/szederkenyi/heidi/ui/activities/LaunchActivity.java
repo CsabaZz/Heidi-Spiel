@@ -5,10 +5,13 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 
 import ch.szederkenyi.heidi.R;
+import ch.szederkenyi.heidi.data.storage.StorageManager;
 import ch.szederkenyi.heidi.ui.fragments.LanguageSelectorFragment;
 import ch.szederkenyi.heidi.utils.Utils;
 
 public class LaunchActivity extends BaseActivity implements LanguageSelectorFragment.OnLanguageSelectedListener {
+    
+    private static final String INTRO = "data.json";
     
     private LanguageSelectorFragment mLangSelectorFragment;
     
@@ -38,9 +41,13 @@ public class LaunchActivity extends BaseActivity implements LanguageSelectorFrag
         
         finish();
         
-        final Intent storyIntent = new Intent(this, StoryboardActivity.class);
-        storyIntent.putExtra(StoryboardActivity.EXTRA_DATAFILE, "data.json");
-        startActivity(storyIntent);
+        if(StorageManager.isCategoryCompleted(INTRO)) {
+            startActivity(new Intent(this, CategoryChooserActivity.class));
+        } else {
+            final Intent storyIntent = new Intent(this, StoryboardActivity.class);
+            storyIntent.putExtra(StoryboardActivity.EXTRA_DATAFILE, INTRO);
+            startActivity(storyIntent);
+        }
     }
 
 }

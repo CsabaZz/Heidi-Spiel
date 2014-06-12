@@ -43,6 +43,8 @@ import java.util.Collections;
 public class DragGameFragment extends BaseFragment {
     private static final String TAG = Utils.makeTag(DragGameFragment.class);
     
+    private static final int SPEED = 8000;
+    
     private static final String KEY_ENTITY_OBJECT = "DragGameFragment::EntityObject";
 
     private ViewGroup mZutatenLayer;
@@ -238,10 +240,10 @@ public class DragGameFragment extends BaseFragment {
         }
         
         private void sendAddMessage() {
-            int additional = first ? 0 : (mIngredientHandler.mIngredientList.size() - 1) * 12000;
+            int additional = first ? 0 : (mIngredientHandler.mIngredientList.size() - 1) * SPEED;
             
             final Message addMsg = Message.obtain(mGameHandler, ConstantUtils.MSG_ADD_IMAGE);
-            mGameHandler.sendMessageDelayed(addMsg, (mIndex * 12000) + additional);
+            mGameHandler.sendMessageDelayed(addMsg, (mIndex * SPEED) + additional);
         }
         
         private void sendRemoveMessage() {
@@ -265,7 +267,7 @@ public class DragGameFragment extends BaseFragment {
                 
                 final Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.push_right_to_left);
                 animation.setAnimationListener(animationListener);
-                animation.setDuration(12000);
+                animation.setDuration(SPEED);
                 animation.setFillBefore(true);
                 animation.setFillAfter(true);
                 
